@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class InicioController {
+	//prueba Luis
 
 	@GetMapping("/inicio")
 	public String inicio(Model model){
