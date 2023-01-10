@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div class="main">
+
+	<!-- LOGUEADO -->
+	<div th:if="${logueado == true}">
+		<h1 th:text="${usuario.Nombre}"></h1>
+		<h3 th:text="${usuario.Rol}"></h3>
+		
+		
+	</div>
+	
+	<!-- SIN LOGUEAR -->
+	<div th:if="${logueado == false}">
+		<form method="post" action="inicio">
+		<input name="usuario" type="text" placeholder="Usuario"/>
+		<input name="contrasena" type="password" placeholder="Contraseña"/>
+		<input type="submit" value="ENVIAR">
+	</form>
+	</div>
+	
+</div>
+
+
+
+</body>
+</html>
