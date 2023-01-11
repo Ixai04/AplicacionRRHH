@@ -2,9 +2,18 @@ package com.aplicacionRRHH.Dao;
 
 import java.util.List;
 
+import com.aplicacionRRHH.modelos.Candidato;
+import com.aplicacionRRHH.modelos.Localidad;
+import com.aplicacionRRHH.modelos.Provincia;
 import com.aplicacionRRHH.modelos.Usuario;
 
 public interface UsuarioDao {
 
-	public List<Usuario> findAll();
+	public List<Usuario> findUsuario();
+	public List<Candidato> findCandidato();
+	public List<Provincia> findProvincia();
+	public List<Localidad> findLocalidad(); 
+	
+	public void save(String nombre);
+
 }

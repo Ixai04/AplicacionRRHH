@@ -1,12 +1,14 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,15 +24,19 @@ public class Provincia implements Serializable{
 	
 	@NotNull
 	String nombre;
+	
+	@OneToMany(mappedBy="provincia")
+    private Set<Localidad> localidad;
 
 	public Provincia() {
 		super();
 	}
 
-	public Provincia(@NotNull Long id, @NotNull String nombre) {
+	public Provincia(@NotNull Long id, @NotNull String nombre, Set<Localidad> localidad) {
 		super();
 		Id = id;
 		this.nombre = nombre;
+		this.localidad = localidad;
 	}
 
 	public Long getId() {
@@ -48,6 +54,16 @@ public class Provincia implements Serializable{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public Set<Localidad> getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(Set<Localidad> localidad) {
+		this.localidad = localidad;
+	}
+
+	
 
 	
 }

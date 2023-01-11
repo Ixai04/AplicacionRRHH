@@ -3,30 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <title>Lista usuarios</title>
+
+<style type="text/css">
+table {
+	margin-top: 50px;
+	border: 1px solid black;
+}
+
+caption {
+	font-size: 30px;
+}
+
+.principal {
+	display: flex;
+	align-self: center;
+	margin: 0 auto;
+	width: 50%;
+}
+
+th, td {
+	width: 100px;
+}
+</style>
 </head>
 <body>
+	<div class="principal">
+		<div>
+			<table class="usuarios">
+				<caption>Usuarios</caption>
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>name</th>
+						<th>apellido1</th>
+						<th>apellido2</th>
+						<th>Rol</th>
+						<th>Localidad</th>
+						<th>Provincia</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="usuario: ${usuarios}">
+						<td><span th:text="${usuario.id}"></span></td>
+						<td><span th:text="${usuario.nombre}"></span></td>
+						<td><span th:text="${usuario.apellido1}"></span></td>
+						<td><span th:text="${usuario.apellido2}"></span></td>
+						<td><span th:text="${usuario.rol.nombre}"></span></td>
+						<td><span th:text="${usuario.localidad.nombre}"></span></td>
+						<td><span th:text="${usuario.localidad.provincia.nombre}"></span>
+						</td>
+					</tr>
 
-	<table>
-		<thead>
-			<tr>
-				<th>id</th>
-				<th>name</th>
-				<th>apellido1</th>
-				<th>apellido2</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="usuario: ${usuarios}">
-				<td><span th:text="${usuario.id}"></span></td>
-				<td><span th:text="${usuario.nombre}"></span> </td>
-				<td><span th:text="${usuario.apellido1}"></span> </td>
-				<td><span th:text="${usuario.apellido2}"></span> </td>
-			</tr>
- 
-		</tbody>
+				</tbody>
 
 
-	</table>
+			</table>
+		</div>
+
+		<div>
+			<table class="candidatos">
+				<caption>Candidatos</caption>
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>nombre</th>
+						<th>Localidad</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="candidato: ${candidatos}">
+						<td><span th:text="${candidato.id}"></span></td>
+						<td><span th:text="${candidato.nombre}"></span></td>
+						<td><span th:text="${candidato.localidad.nombre}"></span></td>
+					</tr>
+
+				</tbody>
+
+
+			</table>
+		</div>
+	</div>
+
+	<div>
+		<table class="provincias">
+			<caption>Provincias</caption>
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>nombre</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="provincia: ${provincias}">
+					<td><span th:text="${provincia.id}"></span></td>
+					<td><span th:text="${provincia.nombre}"></span></td>
+				</tr>
+
+			</tbody>
+
+
+		</table>
+		<form>
+		<a href="/crearProvincia">Crear</a>
+		</form>
+		
+	</div>
+
+	<div>
+		<table class="localidades">
+			<caption>Localidades</caption>
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>nombre</th>
+					<th>provincia</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="localidad: ${localidades}">
+					<td><span th:text="${localidad.id}"></span></td>
+					<td><span th:text="${localidad.nombre}"></span></td>
+					<td><span th:text="${localidad.provincia.nombre}"></span></td>
+				</tr>
+
+			</tbody>
+
+
+		</table>
+
+		<form>
+
+			<select>
+				<option th:each="provincia: ${provincias}" th:value="${provincia.id}"
+					th:text="${provincia.nombre}"></option>
+			</select>
+
+		</form>
+
+
+	</div>
+
+
 
 </body>
 </html>

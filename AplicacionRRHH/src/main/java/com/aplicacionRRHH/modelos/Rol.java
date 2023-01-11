@@ -1,12 +1,14 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,6 +24,9 @@ public class Rol implements Serializable{
 	
 	@NotNull
 	String nombre;
+	
+	@OneToMany(mappedBy="rol")
+    private Set<Usuario> usuarios;
 
 	public Rol() {
 		super();

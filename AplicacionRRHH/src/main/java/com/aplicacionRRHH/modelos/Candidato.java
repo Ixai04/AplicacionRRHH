@@ -1,12 +1,16 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -49,15 +53,21 @@ public class Candidato implements Serializable{
 
 	@NotNull
 	String codigo_Postal;
+	
+	@ManyToOne
+    @JoinColumn(name="id_Localidad", nullable=false)
+    private Localidad localidad;
+	
+	@OneToMany(mappedBy="candidato")
+    private Set<Usuario> usuarios;
 
 	public Candidato() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Candidato(@NotNull Long id, @NotNull String nombre, @NotNull String apellido1, @NotNull String apellido2,
 			@NotNull String correo, @NotNull String telefono, @NotNull String dni, @NotNull String direccion,
-			@NotNull String codigo_Postal) {
+			@NotNull String codigo_Postal, Localidad localidad, Set<Usuario> usuarios) {
 		super();
 		Id = id;
 		this.nombre = nombre;
@@ -68,6 +78,8 @@ public class Candidato implements Serializable{
 		this.dni = dni;
 		this.direccion = direccion;
 		this.codigo_Postal = codigo_Postal;
+		this.localidad = localidad;
+		this.usuarios = usuarios;
 	}
 
 	public Long getId() {
@@ -141,6 +153,23 @@ public class Candidato implements Serializable{
 	public void setCodigo_Postal(String codigo_Postal) {
 		this.codigo_Postal = codigo_Postal;
 	}
+
+	public Localidad getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
+	}
+
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Set<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
 	
 	
 
