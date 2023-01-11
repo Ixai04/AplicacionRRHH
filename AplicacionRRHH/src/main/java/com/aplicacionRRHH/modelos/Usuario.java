@@ -2,7 +2,10 @@ package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,6 +19,8 @@ public class Usuario implements Serializable{
 	
 	@Id
 	@NotNull
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	Long Id;
 	
 	@NotNull
