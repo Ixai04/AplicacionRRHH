@@ -1,27 +1,31 @@
 package com.aplicacionRRHH.Controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.aplicacionRRHH.Dao.UsuarioDao;
 
 @Controller
 public class InicioController {
-	//prueba Luis
 
+	@Autowired
+	private UsuarioDao dao;
+	
+	
 	@GetMapping("/inicio")
 	public String inicio(Model model){
 		
-		model.addAttribute("logueado", false);
+		model.addAttribute("usuarios", dao.findAll());
 		return "Inicio";
 	}
 	
-	@PostMapping("/inicio")
-	public String login(Model model, @RequestParam("usuario") String usuario, @RequestParam("contrasena") String contrasena) {
+	/*@PostMapping("/inicio")
+	*public String login(Model model, @RequestParam("usuario") String usuario, @RequestParam("contrasena") String contrasena) {
 		Boolean logueado = false;
 		
-		if(usuario.equals("a") && contrasena.equals("a")) {
-			logueado = true;
+	if(usuario.equals("a") && contrasena.equals("a")) {
+			//logueado = true;
 		}
 		
 
@@ -31,5 +35,5 @@ public class InicioController {
 		model.addAttribute("msgError", "He entrado al POST inicio");
 		model.addAttribute("logueado", logueado);
 		return "Inicio";
-	}
+	}*/
 }
