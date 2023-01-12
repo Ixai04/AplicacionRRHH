@@ -15,7 +15,6 @@ public class Habilidad implements Serializable{
 	private static final long serialVersionUID = -8056353905639103057L;
 
 	@Id
-	@NotNull
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long Id;

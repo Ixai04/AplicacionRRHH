@@ -20,7 +20,6 @@ public class Candidato implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "id")
 	Long Id;
 	

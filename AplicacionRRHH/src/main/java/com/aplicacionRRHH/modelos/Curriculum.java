@@ -16,7 +16,6 @@ public class Curriculum implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "id")
 	Long Id;
 	

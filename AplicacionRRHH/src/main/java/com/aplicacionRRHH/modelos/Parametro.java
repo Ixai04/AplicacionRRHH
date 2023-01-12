@@ -15,7 +15,6 @@ public class Parametro implements Serializable {
 	private static final long serialVersionUID = -4943651289912393695L;
 
 	@Id
-	@NotNull
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long Id;

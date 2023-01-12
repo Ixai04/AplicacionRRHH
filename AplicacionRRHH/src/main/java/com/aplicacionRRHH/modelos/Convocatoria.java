@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotNull;
 public class Convocatoria {
 
 	@Id
-	@NotNull
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long Id;

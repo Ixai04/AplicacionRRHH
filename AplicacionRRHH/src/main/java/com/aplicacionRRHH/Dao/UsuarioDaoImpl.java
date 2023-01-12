@@ -11,47 +11,80 @@ import com.aplicacionRRHH.modelos.Usuario;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao {
-
+	
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Usuario> findUsuario() {
-		List<Usuario> listUsuario = em.createQuery("from Usuario").getResultList();
-		return listUsuario;
+	public Usuario login(String username, String password) {
+		
+		List<Usuario> listUsuario = em.createQuery("from Usuario where username='"+username+"' and  password='" +password+ "' ").getResultList();
+		if (listUsuario.size() == 0){
+			return null;
+		} 
+		else if (listUsuario.size() == 1) {
+			return listUsuario.get(0);
+		}
+		
+		return null;
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Candidato> findCandidato() {
-		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
-		return listCandidato;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Provincia> findProvincia() {
-		List<Provincia> listProvincia = em.createQuery("from Provincia").getResultList();
-		return listProvincia;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Localidad> findLocalidad() {
-		List<Localidad> listLocalidad = em.createQuery("from Localidad").getResultList();
-		return listLocalidad;
-	}
-
-	//Arreglar consulta crear
-	@Override
-	public void save(String nombre) {
-		String query = "insert into Provincia(nombre) values('"+ nombre + "')";
-
-		em.createNativeQuery(query).executeUpdate(); 
-	}
+	
+//
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Usuario> findUsuario() {
+//		List<Usuario> listUsuario = em.createQuery("from Usuario").getResultList();
+//		return listUsuario;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Candidato> findCandidato() {
+//		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
+//		return listCandidato;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Provincia> findProvincia() {
+//		List<Provincia> listProvincia = em.createQuery("from Provincia").getResultList();
+//		return listProvincia;
+//	}
+//
+//	@Override
+//	@SuppressWarnings("unchecked")
+//	public List<Localidad> findLocalidad() {
+//		List<Localidad> listLocalidad = em.createQuery("from Localidad").getResultList();
+//		return listLocalidad;
+//	}
+//
+//	@Override
+//	@Transactional
+//	public void save(Provincia provincia) {
+//		if(provincia.getId() !=null && provincia.getId() > 0) {
+//			em.merge(provincia);
+//		}
+//		else {
+//		em.persist(provincia);
+//		}
+//	}
+//
+//	@Override
+//	public Provincia findOne(Long id) {
+//		return em.find(Provincia.class, id);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public void delete(Long id) {
+//		em.remove(findOne(id));
+//	}
+	
 
 }

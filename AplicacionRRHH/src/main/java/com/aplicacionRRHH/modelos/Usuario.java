@@ -18,7 +18,6 @@ public class Usuario implements Serializable{
 	
 	
 	@Id
-	@NotNull
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long Id;
@@ -33,10 +32,10 @@ public class Usuario implements Serializable{
 	String apellido2;
 	
 	@NotNull
-	String usuario;
+	String username;
 	
 	@NotNull
-	String contrasena;
+	String password;
 	
 	@NotNull
 	String correo;
@@ -68,15 +67,15 @@ public class Usuario implements Serializable{
 	}
 
 	public Usuario(@NotNull Long id, @NotNull String nombre, @NotNull String apellido1, @NotNull String apellido2,
-			@NotNull String usuario, @NotNull String contrasena, @NotNull String correo, @NotNull String telefono,
+			@NotNull String username, @NotNull String password, @NotNull String correo, @NotNull String telefono,
 			@NotNull String dni, @NotNull String codigoPostal, Rol rol, Localidad localidad, Candidato candidato) {
 		super();
 		Id = id;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
-		this.usuario = usuario;
-		this.contrasena = contrasena;
+		this.username = username;
+		this.password = password;
 		this.correo = correo;
 		this.telefono = telefono;
 		this.dni = dni;
@@ -118,20 +117,20 @@ public class Usuario implements Serializable{
 		this.apellido2 = apellido2;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getContrasena() {
-		return contrasena;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getCorreo() {

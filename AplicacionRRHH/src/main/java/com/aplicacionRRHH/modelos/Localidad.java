@@ -20,7 +20,6 @@ public class Localidad implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "id")
 	Long Id;
 	
@@ -41,13 +40,14 @@ public class Localidad implements Serializable{
 	
 	@OneToMany(mappedBy="localidad")
     private Set<Candidato> candidato;
+	
 
 	public Localidad() {
 		super();
 	}
 
 
-	public Localidad(@NotNull Long id, @NotNull String nombre, Provincia provincia, Set<Usuario> usuarios,
+	public Localidad( Long id, @NotNull String nombre, Provincia provincia, Set<Usuario> usuarios,
 			Set<Candidato> candidato) {
 		super();
 		Id = id;
@@ -106,6 +106,15 @@ public class Localidad implements Serializable{
 	public void setCandidato(Set<Candidato> candidato) {
 		this.candidato = candidato;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Localidad [Id=" + Id + ", nombre=" + nombre + ", provincia=" + provincia + ", usuarios=" + usuarios
+				+ ", candidato=" + candidato + "]";
+	}
+
+
 
 	
 	

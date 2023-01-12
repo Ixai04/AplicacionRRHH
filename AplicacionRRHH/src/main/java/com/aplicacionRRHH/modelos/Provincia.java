@@ -17,8 +17,7 @@ public class Provincia implements Serializable{
 	private static final long serialVersionUID = -7247621010609889471L;
 
 	@Id
-	@NotNull
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	Long Id;
 	
@@ -32,7 +31,7 @@ public class Provincia implements Serializable{
 		super();
 	}
 
-	public Provincia(@NotNull Long id, @NotNull String nombre, Set<Localidad> localidad) {
+	public Provincia( Long id, @NotNull String nombre, Set<Localidad> localidad) {
 		super();
 		Id = id;
 		this.nombre = nombre;
@@ -62,6 +61,8 @@ public class Provincia implements Serializable{
 	public void setLocalidad(Set<Localidad> localidad) {
 		this.localidad = localidad;
 	}
+
+
 
 	
 
