@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -17,23 +18,23 @@ public class Convocatoria {
 	@Column(name = "id")
 	Long Id;
 	
-	@NotNull
+	@NotEmpty
 	@Column(name = "puesto_Trabajo")
 	String puestoTrabajo;
 	
 
 	@NotNull
-	LocalDate fecha ;
+	LocalDate fecha;
 	
-	@NotNull
+	@NotEmpty
 	String lugar;
 
 	public Convocatoria() {
 		super();
 	}
 
-	public Convocatoria(@NotNull Long id, @NotNull String puestoTrabajo, @NotNull LocalDate fecha,
-			@NotNull String lugar) {
+	public Convocatoria(Long id, @NotEmpty String puestoTrabajo, @NotNull LocalDate fecha,
+			@NotEmpty String lugar) {
 		super();
 		Id = id;
 		this.puestoTrabajo = puestoTrabajo;
