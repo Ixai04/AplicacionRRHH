@@ -23,11 +23,6 @@ public class Localidad implements Serializable{
 	@Column(name = "id")
 	Long Id;
 	
-	//---------------- CLAVES FORANEAS
-	
-		//-----> 1: id_provincia
-		
-	
 	@NotNull
 	String nombre;
 	

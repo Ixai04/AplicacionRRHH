@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -29,28 +31,28 @@ public class Candidato implements Serializable{
 		
 
 	
-	@NotNull
+	@NotEmpty
 	String nombre;
 
-	@NotNull
+	@NotEmpty
 	String apellido1;
 
-	@NotNull
+	@NotEmpty
 	String apellido2;
 	
-	@NotNull
+	@NotEmpty
 	String correo;
 
-	@NotNull
+	@NotEmpty
 	String telefono;
 
-	@NotNull
+	@NotEmpty
 	String dni;
 
-	@NotNull
+	@NotEmpty
 	String direccion;
 
-	@NotNull
+	@NotEmpty
 	String codigo_Postal;
 	
 	@ManyToOne
@@ -60,13 +62,17 @@ public class Candidato implements Serializable{
 	@OneToMany(mappedBy="candidato")
     private Set<Usuario> usuarios;
 
+	@OneToOne(mappedBy="candidato")
+    private Curriculum curriculum;
+
+	
 	public Candidato() {
 		super();
 	}
 
-	public Candidato(@NotNull Long id, @NotNull String nombre, @NotNull String apellido1, @NotNull String apellido2,
-			@NotNull String correo, @NotNull String telefono, @NotNull String dni, @NotNull String direccion,
-			@NotNull String codigo_Postal, Localidad localidad, Set<Usuario> usuarios) {
+	public Candidato(@NotNull Long id, @NotEmpty String nombre, @NotEmpty String apellido1, @NotEmpty String apellido2,
+			@NotEmpty String correo, @NotEmpty String telefono, @NotEmpty String dni, @NotEmpty String direccion,
+			@NotEmpty String codigo_Postal, Localidad localidad, Set<Usuario> usuarios, Curriculum curriculum) {
 		super();
 		Id = id;
 		this.nombre = nombre;
@@ -79,6 +85,7 @@ public class Candidato implements Serializable{
 		this.codigo_Postal = codigo_Postal;
 		this.localidad = localidad;
 		this.usuarios = usuarios;
+		this.curriculum = curriculum;
 	}
 
 	public Long getId() {
@@ -167,6 +174,14 @@ public class Candidato implements Serializable{
 
 	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	public Curriculum getCurriculum() {
+		return curriculum;
+	}
+
+	public void setCurriculum(Curriculum curriculum) {
+		this.curriculum = curriculum;
 	}
 
 	

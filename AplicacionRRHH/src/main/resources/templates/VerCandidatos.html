@@ -40,6 +40,7 @@ th, td {
 						<th>Nombre</th>
 						<th>Apellido 1</th>
 						<th>Localidad</th>
+						<th>Curriculums</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,10 +48,15 @@ th, td {
 						<td><span th:text="${candidato.id}"></span></td>
 						<td><span th:text="${candidato.nombre}"></span></td>
 						<td><span th:text="${candidato.apellido1}"></span></td>
-						<td><span>Llodio (Álava)</span></td>
-						<!-- td><span th:text="${candidato.localidad.nombre} (${candidato.localidad.provincia.nombre})"></span></td-->
-						<td><a th:href="@{/datosCandidato/} + ${candidato.id}">Ver</a></td>
-						<td><a th:href="@{/eliminarCandidato/} + ${candidato.id}">Eliminar</a></td>
+						<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
+						<td>
+							<span th:if="${candidato.curriculum != null}" th:text="${candidato.curriculum.nombre}"></span>
+							<button th:if="${candidato.curriculum == null}" >
+								<a th:href="@{/candidatos/} + ${nuevoCurriculum}">+</a>
+							</button>
+						</td>
+						<td><a th:href="@{/candidatos/} + ${candidato.id}">Ver</a></td>
+						<td><a th:href="@{/eliminar/} + ${candidato.id}">Eliminar</a></td>
 					</tr>
 
 				</tbody>
