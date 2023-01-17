@@ -23,16 +23,16 @@ public class PruebaController {
 	private LocalidadDao daoLocalidad;
 	
 	
-	@GetMapping("/pruebas")
-	public String inicio(Model model){
-		
-		model.addAttribute("usuarios", dao.findUsuario());
+	//@GetMapping("/pruebas")
+	//public String inicio(Model model){
+//		
+	/*	model.addAttribute("usuarios", dao.findUsuario());
 		model.addAttribute("candidatos", dao.findCandidato());
 		model.addAttribute("provincias", dao.findProvincia());
 		model.addAttribute("localidades", daoLocalidad.findLocalidad());
 		System.out.println(daoLocalidad.findLocalidad().toString());
 		return "Pruebas";
-	}
+	}*/
 	
 //	@GetMapping("/form")
 //	public String crear(Map<String, Object> model){
@@ -74,7 +74,7 @@ public class PruebaController {
 //		return "redirect:/inicio";
 //	}
 	
-	@GetMapping("/formlocalidad")
+	/*@GetMapping("/formlocalidad")
 	public String crear(Map<String, Object> model){
 		
 		Localidad localidad = new Localidad();
@@ -119,5 +119,5 @@ public class PruebaController {
 		
 	
 	
-	
+	*/
 }
