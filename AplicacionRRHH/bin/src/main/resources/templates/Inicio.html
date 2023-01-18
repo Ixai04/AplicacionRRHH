@@ -2,31 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Inicio</title>
 </head>
 <body>
-<div class="main">
 
-	<!-- LOGUEADO -->
-	<div th:if="${logueado == true}">
-		<h1 th:text="${usuario.Nombre}"></h1>
-		<h3 th:text="${usuario.Rol}"></h3>
-		
-		
+	<nav>
+		<ul>
+			<li th:if="${(usuario != null) && (usuario.rol.nombre == 'empleado')}"><a href="#">Empleado</a></li>
+			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a href="#">Candidatos</a></li>
+			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a href="#">Convocatorias</a></li>
+			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'admin')}"><a href="#">Admin</a></li>
+		</ul>
+	</nav>
+
+	<div>
+		<div th:if="${usuario} == null">
+			<form method="post" action="/login">
+
+				<label> Usuario </label> <input type="text" name="username" /> <label>Contraseña
+				</label> <input type="text" name="password" /> <input type="submit"
+					value="enviar" />
+			</form>
+
+			<label th:text="${error}"></label>
+
+		</div>
+		<div th:if="${usuario} != null">
+			<h3 th:text="${'Bienvenido ' + usuario.username}"></h3>
+		</div>
+
 	</div>
-	
-	<!-- SIN LOGUEAR -->
-	<div th:if="${logueado == false}">
-		<form method="post" action="inicio">
-		<input name="usuario" type="text" placeholder="Usuario"/>
-		<input name="contrasena" type="password" placeholder="Contraseña"/>
-		<input type="submit" value="ENVIAR">
-	</form>
-	</div>
-	
-</div>
-
-
 
 </body>
 </html>
