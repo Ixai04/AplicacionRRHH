@@ -5,12 +5,13 @@
 <title>Inicio</title>
 </head>
 <body>
-
 	<nav>
 		<ul>
 			<li th:if="${(usuario != null) && (usuario.rol.nombre == 'empleado')}"><a th:href="@{/verEmpleado}">Empleado</a></li>
+			
 			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a th:href="@{/candidatos/todos}">Candidatos</a></li>
 			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a th:href="@{/convocatorias}">Convocatorias</a></li>
+			
 			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'admin')}"><a th:href="@{/configParametros}">Admin</a></li>
 		</ul>
 	</nav>
@@ -19,19 +20,25 @@
 		<div th:if="${usuario} == null">
 			<form method="post" action="/login">
 
-				<label> Usuario </label> <input type="text" name="username" /> <label>Contraseña
-				</label> <input type="text" name="password" /> <input type="submit"
-					value="enviar" />
+				<label> Usuario </label>
+				<input type="text" name="username" />
+				
+				<label>Contraseña</label>
+				<input type="text" name="password" />
+				
+				<input type="submit" value="enviar" />
 			</form>
 
 			<label th:text="${error}"></label>
 
 		</div>
+		
 		<div th:if="${usuario} != null">
 			<h3 th:text="${'Bienvenido ' + usuario.username}"></h3>
 		</div>
 
 	</div>
+ 
 
 </body>
 </html>

@@ -27,10 +27,11 @@ public class InicioController {
 		
 		Usuario usuario = dao.login(username, password);
 		model.addAttribute("usuario", usuario);
-		
+	
 		if(usuario == null) {
-		model.addAttribute("error", "Login incorrecto");
+			model.addAttribute("error", "Login incorrecto");
 		}
+		
 		return "Inicio";
 	}
 	

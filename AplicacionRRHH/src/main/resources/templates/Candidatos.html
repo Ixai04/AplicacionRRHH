@@ -25,12 +25,31 @@ caption {
 th, td {
 	padding-left: 10px;
 }
+
+.botonPeque{
+	width: 10px;
+	height: 10px;
+	padding: 0px;
+	font-size: 0.7em;
+	background-color: black;
+	color: green;
+	border-radius: 20px;
+	border: 1px solid red;
+}
+.botonPeque a{
+	color: white;
+	text-decoration: none;
+}
+.botonGrande{
+	font-size: 0.9em;
+}
+
 </style>
 </head>
 <body>
 	<div class="principal">
 		<div>
-			<a href="nuevo">Nuevo</a>
+			<a href="nuevoCandidato">Nuevo</a>
 			
 			<table class="candidatos">
 				<caption>Candidatos</caption>
@@ -50,12 +69,15 @@ th, td {
 						<td><span th:text="${candidato.apellido1}"></span></td>
 						<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
 						<td>
-							<span th:if="${candidato.curriculum != null}" th:text="${candidato.curriculum.nombre}"></span>
-							<button th:if="${candidato.curriculum == null}" >
-								<a th:href="@{/candidatos/} + ${nuevoCurriculum}">+</a>
+							<span th:if="${candidato.curriculum != null}">
+								<span th:text="${candidato.curriculum.nombre}"></span>
+								<button class="botonPeque"><a th:href="@{/eliminarCurriculum/} + ${candidato.id}">x</a></button>
+							</span>
+							<button class="botonGrande" th:if="${candidato.curriculum == null}" >
+								<a th:href="@{/nuevoCurriculum/} + ${candidato.id}">+ Añadir</a>
 							</button>
 						</td>
-						<td><a th:href="@{/candidatos/} + ${candidato.id}">Ver</a></td>
+						<td><a th:href="@{/candidato/} + ${candidato.id}">Ver</a></td>
 						<td><a th:href="@{/eliminar/} + ${candidato.id}">Eliminar</a></td>
 					</tr>
 

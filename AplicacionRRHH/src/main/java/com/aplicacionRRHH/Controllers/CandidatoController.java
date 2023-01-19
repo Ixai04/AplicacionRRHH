@@ -6,37 +6,48 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
+import com.aplicacionRRHH.Dao.CurriculumDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
+import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
+import com.aplicacionRRHH.modelos.Curriculum;
+import com.aplicacionRRHH.modelos.Localidad;
 
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("candidatos")
 public class CandidatoController {
 
 	@Autowired
 	private CandidatoDao daoCandidato;
 	
 	@Autowired
+	private CurriculumDao daoCurriculum;
+	
+	@Autowired
 	private LocalidadDao daoLocalidad;
 	
+	@Autowired
+	private ParametroDao daoParametro;
 	
-	@GetMapping("/todos")
+	//----------------------------------------------------------------------------------------------
+	//----------------------------------------- CANDIDATOS -----------------------------------------
+	//----------------------------------------------------------------------------------------------
+	
+	@GetMapping("/candidatos")
 	public String inicio(Model model){
-
 		model.addAttribute("candidatos", daoCandidato.findCandidato());
-		return "VerCandidatos";
+		return "Candidatos";
 	}
 	
-	@GetMapping("/nuevo")
+	@GetMapping("/nuevoCandidato")
 	public String nuevoCandidato(Map<String, Object> model){
 
 		Candidato candidato = new Candidato();
@@ -46,8 +57,8 @@ public class CandidatoController {
 		return "NuevoCandidato";
 	}
 	
-	@PostMapping("/nuevo")
-	public String crearConvocatoria(Candidato candidato) {
+	@PostMapping("/nuevoCandidato")
+	public String crearCandidato(Candidato candidato) {
 
 		/*
 		if(result.hasErrors()) {
@@ -57,60 +68,74 @@ public class CandidatoController {
 
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		daoCandidato.save(candidato);
-		return "redirect:/candidatos/todos";
+		return "redirect:/candidatos";
 	}
 	
-	@GetMapping("/{id}")
-	public String verCandidato(@PathVariable("id") long id, Model model){
+	@GetMapping("candidato/{id}")
+	public String verCandidato(@PathVariable("id") long id, Map<String, Object> model){
 
 		Candidato candidato = daoCandidato.findOne(id);
-		model.addAttribute("candidato", candidato);
-		model.addAttribute("disabledText", "disabled");
-		model.addAttribute("localidades", daoLocalidad.findLocalidad());
+		model.put("candidato", candidato);
+		model.put("localidades", daoLocalidad.findLocalidad());
 		return "VerCandidato";
 	}
 	
-	/*
-	@GetMapping("/formlocalidad")
-	public String crear(Map<String, Object> model){
+	@PostMapping("/actualizar")
+	public String actualizarCandidato(@Valid Candidato candidato, BindingResult result) {
+		//(@ModelAttribute Candidato candidato)
+
+		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		
-		Localidad localidad = new Localidad();
-		localidad.setProvincia(dao.findOne(1L));
-		model.put("localidad", localidad);
-		return "CrearLocalidades";
-	}
-	
-	
-	@PostMapping("/formlocalidad")
-	public String crearLocalidad(Localidad localidad) {
-		System.out.println(localidad);
-		daoLocalidad.save(localidad);
-	return "redirect:/pruebas";
-	}
-	
-	@GetMapping(value="/formlocalidad/{id}")
-	public String editarLocalidad(@PathVariable(value="id") Long id, Map<String, Object> model) {
-		
-		Localidad localidad = null;
-		
-		if(id > 0) {
-			localidad = daoLocalidad.findOne(id);
-		}
-		else {
-			return "redirect:/pruebas";
+		if(result.hasErrors()) {
+			return "VerCandidato";
 		}
 		
-		model.put("localidad", localidad);
-		model.put("provincias", dao.findProvincia());
-		return "EditarLocalidades";
+		daoCandidato.save(candidato);
+		return "redirect:/candidatos";
 	}
 	
-	@GetMapping(value="/eliminarlocalidad/{id}")
+	@GetMapping(value="/eliminar/{id}")
 	public String eliminar(@PathVariable(value="id") Long id) {
 		if(id > 0) {
-			daoLocalidad.delete(id);
+			daoCandidato.delete(id);
 		}
-		return "redirect:/pruebas";
+		return "redirect:/candidatos";
 	}
-	*/
+	
+	//----------------------------------------------------------------------------------------------
+	//----------------------------------------- CURRICULUM -----------------------------------------
+	//----------------------------------------------------------------------------------------------
+	
+	@GetMapping("/nuevoCurriculum/{id}")
+	public String nuevoCurriculum(@PathVariable(value="id") Long id, Map<String, Object> model){
+
+		Curriculum curriculum = new Curriculum();
+		model.put("curriculum", curriculum);
+		model.put("candidato", daoCandidato.findOne(id));
+		model.put("parametros", daoParametro.findParametro());
+		return "NuevoCurriculum";
+	}
+	
+	@PostMapping("/nuevoCurriculum/{id}")
+	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum) {
+
+		/*
+		if(result.hasErrors()) {
+			return "NuevoCandidato";
+		}
+		*/
+
+		curriculum.setCandidato(daoCandidato.findOne(id));
+		daoCurriculum.save(curriculum);
+		return "redirect:/candidatos";
+	}
+	
+	@GetMapping(value="/eliminarCurriculum/{id}")
+    public String eliminarCurriculum(@PathVariable(value="id") Long id) {
+        if(id > 0) {
+            daoCurriculum.delete(daoCandidato.findOne(id).getCurriculum().getId());
+        }
+        return "redirect:/candidatos";
+    }
+	
 }
