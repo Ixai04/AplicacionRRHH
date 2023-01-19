@@ -34,57 +34,35 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return null;
 	}
 
+	@Override
+	@Transactional
+	public void save(Usuario usuario) {
+		if(usuario.getId() !=null && usuario.getId() > 0) {
+			em.merge(usuario);
+		}
+		else {
+		em.persist(usuario);
+		}
+	}
+
+	@Override
+	public Usuario findOne(Long id) {
+		return em.find(Usuario.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		em.remove(findOne(id));
+	}
 	
-//
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public List<Usuario> findUsuario() {
-//		List<Usuario> listUsuario = em.createQuery("from Usuario").getResultList();
-//		return listUsuario;
-//	}
-//
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public List<Candidato> findCandidato() {
-//		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
-//		return listCandidato;
-//	}
-//
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public List<Provincia> findProvincia() {
-//		List<Provincia> listProvincia = em.createQuery("from Provincia").getResultList();
-//		return listProvincia;
-//	}
-//
-//	@Override
-//	@SuppressWarnings("unchecked")
-//	public List<Localidad> findLocalidad() {
-//		List<Localidad> listLocalidad = em.createQuery("from Localidad").getResultList();
-//		return listLocalidad;
-//	}
-//
-//	@Override
-//	@Transactional
-//	public void save(Provincia provincia) {
-//		if(provincia.getId() !=null && provincia.getId() > 0) {
-//			em.merge(provincia);
-//		}
-//		else {
-//		em.persist(provincia);
-//		}
-//	}
-//
-//	@Override
-//	public Provincia findOne(Long id) {
-//		return em.find(Provincia.class, id);
-//	}
-//
-//	@Override
-//	@Transactional
-//	public void delete(Long id) {
-//		em.remove(findOne(id));
-//	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Usuario> findUsuario() {
+		List<Usuario> listUsuario = em.createQuery("from Usuario").getResultList();
+		return listUsuario;
+	}
 	
 
 }

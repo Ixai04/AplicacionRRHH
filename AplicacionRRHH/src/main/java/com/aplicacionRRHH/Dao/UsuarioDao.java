@@ -8,6 +8,17 @@ import com.aplicacionRRHH.modelos.Provincia;
 import com.aplicacionRRHH.modelos.Usuario;
 
 public interface UsuarioDao {
+	
+	
+	
+	public List<Usuario> findUsuario();
+
+	public void save(Usuario usuario);
+
+	public Usuario findOne(Long id);
+
+	public void delete(Long id);
+	
 
 //	public List<Usuario> findUsuario();
 //	public List<Candidato> findCandidato();

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,32 +23,35 @@ public class Usuario implements Serializable{
 	@Column(name = "id")
 	Long Id;
 	
-	@NotNull
+	@NotEmpty
 	String nombre;
 	
-	@NotNull
+	@NotEmpty
 	String apellido1;
 	
-	@NotNull
+	@NotEmpty
 	String apellido2;
 	
-	@NotNull
+	@NotEmpty
 	String username;
 	
-	@NotNull
+	@NotEmpty
 	String password;
 	
-	@NotNull
+	@NotEmpty
 	String correo;
 	
-	@NotNull
+	@NotEmpty
 	String telefono;
 	
-	@NotNull
+	@NotEmpty
+	String direccion;
+	
+	@NotEmpty
 	String dni;
 	
 	
-	@NotNull
+	@NotEmpty
 	String codigoPostal;
 	
 	@ManyToOne
@@ -66,9 +70,9 @@ public class Usuario implements Serializable{
 		super();
 	}
 
-	public Usuario(@NotNull Long id, @NotNull String nombre, @NotNull String apellido1, @NotNull String apellido2,
-			@NotNull String username, @NotNull String password, @NotNull String correo, @NotNull String telefono,
-			@NotNull String dni, @NotNull String codigoPostal, Rol rol, Localidad localidad, Candidato candidato) {
+	public Usuario( Long id, @NotEmpty String nombre, @NotEmpty String apellido1, @NotEmpty String apellido2,
+			@NotEmpty String username, @NotEmpty String password, @NotEmpty String correo, @NotEmpty String telefono,
+			@NotEmpty String direccion,@NotEmpty String dni, @NotEmpty String codigoPostal, Rol rol, Localidad localidad, Candidato candidato) {
 		super();
 		Id = id;
 		this.nombre = nombre;
@@ -78,6 +82,7 @@ public class Usuario implements Serializable{
 		this.password = password;
 		this.correo = correo;
 		this.telefono = telefono;
+		this.direccion = direccion;
 		this.dni = dni;
 		this.codigoPostal = codigoPostal;
 		this.rol = rol;
@@ -147,6 +152,14 @@ public class Usuario implements Serializable{
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public String getDni() {

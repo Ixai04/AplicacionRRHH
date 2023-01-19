@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
+import com.aplicacionRRHH.Dao.RolDao;
+import com.aplicacionRRHH.Dao.UsuarioDao;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
+import com.aplicacionRRHH.modelos.Usuario;
 
 import jakarta.validation.Valid;
 
@@ -22,31 +26,53 @@ import jakarta.validation.Valid;
 public class EmpleadosController {
 
 	@Autowired
-	private CandidatoDao daoCandidato;
+	private UsuarioDao daoUsuario;
 	
 	@Autowired
 	private LocalidadDao daoLocalidad;
 	
+	@Autowired
+	private CandidatoDao daoCandidato;
+	
+	@Autowired
+	private RolDao daoRol;
+	
+	private Usuario usuario;
+	
 	
 	@GetMapping("/verEmpleado")
 	public String inicio(Model model){
-
-		//model.addAttribute("candidatos", daoCandidato.findCandidato());
+		model.addAttribute("usuario", daoUsuario.findOne(3L));
 		return "VerEmpleado";
 	}
 	
+	@PostMapping("/actualizarEmpleado")
+	public String actualizar(@Valid Usuario usuario, BindingResult result){
+		
+		if(result.hasErrors()) {
+			return "VerEmpleado";
+			
+		}
+		
+		usuario.setRol(daoRol.findOne(3L));
+		usuario.setCandidato(daoCandidato.findOne(1L));
+		usuario.setLocalidad(daoLocalidad.findOne(1L));
+		daoUsuario.save(usuario);
+		return "redirect:/verEmpleado";
+	}
+	
 	@GetMapping("/nuevo3")
-	public String nuevoCandidato(Map<String, Object> model){
+	public String nuevoEmpleado(Map<String, Object> model){
 
-		Candidato candidato = new Candidato();
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
-		model.put("candidato", candidato);
+		Usuario usuario = new Usuario();
+		usuario.setLocalidad(daoLocalidad.findOne(3L));
+		model.put("usuario", usuario);
 		model.put("localidades", daoLocalidad.findLocalidad());
-		return "NuevoCandidato";
+		return "nuevoEmpleado";
 	}
 	
 	@PostMapping("/nuevo3")
-	public String crearConvocatoria(Candidato candidato) {
+	public String crearConvocatoria(Usuario usuario) {
 
 		/*
 		if(result.hasErrors()) {
@@ -54,9 +80,9 @@ public class EmpleadosController {
 		}
 		*/
 
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
-		daoCandidato.save(candidato);
-		return "redirect:/candidatos/todos";
+		usuario.setLocalidad(daoLocalidad.findOne(3L));
+		daoUsuario.save(usuario);
+		return "redirect:/usuarios/todos";
 	}
 	
 
