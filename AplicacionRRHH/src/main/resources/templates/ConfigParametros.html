@@ -6,5 +6,31 @@
 </head>
 <body>
 	<h1>ConfigParametros</h1>
+	<div class="row mb-3">
+	
+	<!-------------------- NOMBRE -------------------->
+	
+	
+	<div th:each="parametro: ${parametros}">
+	<label th:text="${parametro.nombre}"></label>
+	<button><a th:href="@{/eliminarParametro/} + ${parametro.id}">Eliminar</a></button>
+	</div>
+	
+	<form th:action="@{/crearParametro}" th:object="${nuevoParametro}" method="post">
+    <input type="text" name="nombre" th:field="*{nombre}" th:errorclass="'form-control alert-danger'"/>
+    <input type="submit"  value="Crear parametro"/>
+</form>
+	
+	
+	
+	
+
+    
+    
+    
+    
+    
+
+  
 </body>
 </html>

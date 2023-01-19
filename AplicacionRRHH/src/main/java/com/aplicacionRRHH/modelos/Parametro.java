@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -19,14 +20,14 @@ public class Parametro implements Serializable {
 	@Column(name = "id")
 	Long Id;
 
-	@NotNull
+	@NotEmpty
 	String nombre;
 
 	public Parametro() {
 		super();
 	}
 
-	public Parametro(@NotNull Long id, @NotNull String nombre) {
+	public Parametro( Long id, @NotEmpty String nombre) {
 		super();
 		Id = id;
 		this.nombre = nombre;

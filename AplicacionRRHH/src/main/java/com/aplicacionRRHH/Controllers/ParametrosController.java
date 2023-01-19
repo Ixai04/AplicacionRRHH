@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
+import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
+import com.aplicacionRRHH.modelos.Parametro;
 
 import jakarta.validation.Valid;
 
@@ -22,41 +24,40 @@ import jakarta.validation.Valid;
 public class ParametrosController {
 
 	@Autowired
-	private CandidatoDao daoCandidato;
+	private ParametroDao daoParametro;
 	
-	@Autowired
-	private LocalidadDao daoLocalidad;
 	
 	
 	@GetMapping("/configParametros")
 	public String inicio(Model model){
-
-		//model.addAttribute("candidatos", daoCandidato.findCandidato());
+		Parametro parametro = new Parametro();
+		model.addAttribute("nuevoParametro", parametro);
+		model.addAttribute("parametros", daoParametro.findParametro());
 		return "ConfigParametros";
 	}
 	
 	
-	@GetMapping("/nuevo2")
-	public String nuevoCandidato(Map<String, Object> model){
+	
+	
+	@PostMapping("/crearParametro")
+	public String crearParametro(@Valid Parametro parametro, BindingResult result) {
 
-		Candidato candidato = new Candidato();
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
-		model.put("candidato", candidato);
-		model.put("localidades", daoLocalidad.findLocalidad());
-		return "NuevoCandidato";
+		
+		if(result.hasErrors()) {
+			return "ConfigParametros";
+		}
+		
+
+		
+		daoParametro.save(parametro);
+		return "redirect:/configParametros";
 	}
 	
-	@PostMapping("/nuevo2")
-	public String crearConvocatoria(Candidato candidato) {
-
-		/*
-		if(result.hasErrors()) {
-			return "NuevoCandidato";
-		}
-		*/
-
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
-		daoCandidato.save(candidato);
-		return "redirect:/candidatos/todos";
-	}
+	@GetMapping(value="/eliminarParametro/{id}")
+    public String eliminarParametro(@PathVariable(value="id") Long id) {
+        if(id > 0) {
+            daoParametro.delete(id);
+        }
+        return "redirect:/configParametros";
+    }
 }
