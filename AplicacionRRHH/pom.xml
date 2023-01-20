@@ -40,17 +40,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency-->
-        <dependency>
+		</dependency>
+        <!--dependency>
 		  <groupId>com.microsoft.sqlserver</groupId>
 		  <artifactId>mssql-jdbc</artifactId>
-		  <version>11.2.3.jre17</version><!--$NO-MVN-MAN-VER$-->
-		</dependency>
-		
+		  <version>11.2.3.jre17</version><$NO-MVN-MAN-VER$>
+		</dependency-->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>

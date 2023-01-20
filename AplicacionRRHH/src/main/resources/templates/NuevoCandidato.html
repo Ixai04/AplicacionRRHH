@@ -21,45 +21,45 @@
 
 <div class="container row g-3 align-items-center">
 
-<form th:action="@{/nuevoCandidato}" th:object="${candidato}" method="post">
+<form th:action="@{/candidatos/nuevo}" th:object="${candidato}" method="post">
 
 	<div>
-		<label for="nombre">Nombre</label>
+		<label for="nombre">Nombre*</label>
 			<div>
 			
-				<input type="text" name="nombre" th:field="*{nombre}" th:errorclass="'form-control alert-danger'"/>
+				<input required type="text" name="nombre" th:field="*{nombre}" th:errorclass="'form-control alert-danger'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
 			</div>
 	</div>
 		
 	<div>
-			<label for="apellido1">Primer apellido</label>
+			<label for="apellido1">Primer apellido*</label>
 				<div>
-					<input type="text" name="apellido1" th:field="*{apellido1}" th:errorclass="'form-control alert-danger'"/>
+					<input required type="text" name="apellido1" th:field="*{apellido1}" th:errorclass="'form-control alert-danger'"/>
 					<p class="form-text text-danger" th:if="${#fields.hasErrors('apellido1')}" th:errors="*{apellido1}"></p>
 				</div>
 	</div>
 		
 	<div>
-			<label for="apellido2">Segundo apellido</label>
+			<label for="apellido2">Segundo apellido*</label>
 				<div>
-					<input type="text" name="apellido2" th:field="*{apellido2}" th:errorclass="'form-control alert-danger'"/>
+					<input required type="text" name="apellido2" th:field="*{apellido2}" th:errorclass="'form-control alert-danger'"/>
 					<p class="form-text text-danger" th:if="${#fields.hasErrors('apellido2')}" th:errors="*{apellido2}"></p>
 				</div>
 	</div>
 	
 	<div>
-		<label for="correo">Correo</label>
+		<label for="correo">Correo*</label>
 			<div>
-				<input type="text" name="correo" th:field="*{correo}" th:errorclass="'form-control alert-danger'"/>
+				<input required type="text" name="correo" th:field="*{correo}" th:errorclass="'form-control alert-danger'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></p>
 			</div>
 	</div>
 	
 	<div>
-		<label for="telefono">Telefono</label>
+		<label for="telefono">Telefono*</label>
 			<div>
-				<input type="text" name="telefono" th:field="*{telefono}" th:errorclass="'form-control alert-danger'"/>
+				<input required type="text" name="telefono" th:field="*{telefono}" th:errorclass="'form-control alert-danger'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></p>
 			</div>
 	</div>
@@ -67,7 +67,7 @@
 	<div>
 		<label for="dni">Dni</label>
 			<div>
-				<input type="text" name="dni" th:field="*{dni}" th:errorclass="'form-control alert-danger'"/>
+				<input required type="text" name="dni" th:field="*{dni}" th:errorclass="'form-control alert-danger'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></p>
 			</div>
 	</div>
@@ -82,7 +82,7 @@
 	<div>
 		<label for="direccion">Direccion</label>
 			<div>
-				<input type="text" name="direccion" th:field="*{direccion}" th:errorclass="'form-control alert-danger'"/>
+				<input required type="text" name="direccion" th:field="*{direccion}" th:errorclass="'form-control alert-danger'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></p>
 			</div>
 	</div>
@@ -90,7 +90,7 @@
 	<div>
 		<label for="codigo_Postal">Codigo Postal</label>
 			<div>
-			<input type="text" name="codigo_Postal" th:field="*{codigo_Postal}" th:errorclass="'form-control alert-danger'"/>
+			<input required type="text" name="codigo_Postal" th:field="*{codigo_Postal}" th:errorclass="'form-control alert-danger'"/>
 			<p class="form-text text-danger" th:if="${#fields.hasErrors('codigo_Postal')}" th:errors="*{codigo_Postal}"></p>
 		</div>
 	</div>

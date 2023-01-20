@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<style type="text/css">
+.tablasCandidatos {
+	margin-bottom: 20px;
+	border: 1px solid black;
+	font-size: 10px;
+}
+
+.tablasCandidatos th, td {
+	padding-left: 10px;
+}
+
+
+.container{
+	width: 1200px;
+}
+
+.divCandidato{
+	border: 5px solid darkblue;
+	margin-bottom: 10px;
+	width: 320px;
+}
+
+.divCandidato div{
+	display: inline-block;
+}
+
+.divCandidato div input{
+	width: 150px;
+}
+
+.divConvocatoria{
+	border: 5px solid darkred;
+}
+
+label{
+	font-weight: bold;
+	font-size: 0.7em;
+}
+
+input{
+	display: block;
+	max-width: 140px;
+}
+
+fieldset{
+	width: 300px;
+	margin: 5px auto;
+	margin-bottom: 30px;
+}
+
+
+</style>
+</head>
+<body>
+
+
+<div class="container">
+
+	<div th:if="${candidato != null}" class="divCandidato">
+		
+	  <fieldset>
+	    <legend>Información Personal</legend>
+	    <div>
+			<label>Nombre</label>
+			<input disabled th:field="${candidato.nombre}"></input>
+		</div>
+		
+		<div>
+			<label>Apellido</label>
+			<input disabled th:field="${candidato.apellido1}"></input>
+		</div>
+		
+		<div>
+			<label>Correo</label>
+			<input disabled th:field="${candidato.correo}"></input>
+		</div>
+		
+		<div>
+			<label>Telefono</label>
+			<input disabled th:field="${candidato.telefono}"></input>
+		</div>
+		
+	  </fieldset>
+	  
+	  <fieldset th:if="${listaCurriculumParametros != null}">
+		  <legend>Información curriculum</legend>
+		  <table>
+		  	<thead>
+		  		<tr>
+		  			<th></th>
+		  			<th></th>
+		  		<tr>
+		  		<tr th:each="currPar : ${listaCurriculumParametros}">
+		  			<td><label th:text="${currPar.parametro.nombre}"></label></td>
+					<td><progress th:value="${currPar.valoracion}" max="10"> 32% </progress></td>
+		  		</tr>
+		  	<thead>
+		  </table>
+	  </fieldset>
+	  <h10 th:if="${listaCurriculumParametros == null}">**Éste usuario no tiene curriculum asociado</h10>
+		
+		
+		
+	</div>
+	
+	<div class="divConvocatoria">
+		<a th:href="@{/convocatorias}">Volver</a>
+	
+		<div>
+			<h1>Datos Convocatoria</h1>
+			<input th:field="${convocatoria.id}" disabled type="text"></input>
+			<input th:field="${convocatoria.puestoTrabajo}" disabled type="text"></input>
+		</div>
+	
+		<div>
+			<h1>Todos</h1>
+			<table class="tablasCandidatos">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>Apellido 1</th>
+							<th>Localidad</th>
+							<th>Curriculum</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="candidato: ${candidatosTodos}">
+							<td><span th:text="${candidato.id}"></span></td>
+							<td><span th:text="${candidato.nombre}"></span></td>
+							<td><span th:text="${candidato.apellido1}"></span></td>
+							<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
+							<td>
+								<span th:if="${candidato.curriculum != null}">
+									<span th:text="${candidato.curriculum.nombre}"></span>
+								</span>
+							</td>
+							<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id}">Ver -></a></td>
+						</tr>
+	
+					</tbody>
+	
+	
+				</table>
+		</div>
+	
+		<div>
+			<h1>Candidatos a entrevistas</h1>
+			
+			<table class="tablasCandidatos">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>Apellido 1</th>
+							<th>Localidad</th>
+							<th>Curriculum</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="candidato: ${candidatosEntrevista}">
+							<td><span th:text="${candidato.id}"></span></td>
+							<td><span th:text="${candidato.nombre}"></span></td>
+							<td><span th:text="${candidato.apellido1}"></span></td>
+							<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
+							<td>
+								<span th:if="${candidato.curriculum != null}">
+									<span th:text="${candidato.curriculum.nombre}"></span>
+								</span>
+							</td>
+							<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id}">Ver -></a></td>
+						</tr>
+	
+					</tbody>
+	
+	
+				</table>
+		</div>
+	</div>
+	
+	
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+</body>
+</html>

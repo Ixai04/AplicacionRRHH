@@ -24,7 +24,12 @@ public class Convocatoria {
 	
 
 	@NotNull
-	LocalDate fecha;
+	@Column(name = "fecha_Inicio")
+	LocalDate fechaInicio;
+	
+	@NotNull
+	@Column(name = "fecha_Fin")
+	LocalDate fechaFin;
 	
 	@NotEmpty
 	String lugar;
@@ -33,12 +38,12 @@ public class Convocatoria {
 		super();
 	}
 
-	public Convocatoria(Long id, @NotEmpty String puestoTrabajo, @NotNull LocalDate fecha,
-			@NotEmpty String lugar) {
+	public Convocatoria(Long id, @NotEmpty String puestoTrabajo, @NotNull LocalDate fechaInicio, @NotNull LocalDate fechaFin, @NotEmpty String lugar) {
 		super();
 		Id = id;
 		this.puestoTrabajo = puestoTrabajo;
-		this.fecha = fecha;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
 		this.lugar = lugar;
 	}
 
@@ -58,12 +63,20 @@ public class Convocatoria {
 		this.puestoTrabajo = puestoTrabajo;
 	}
 
-	public LocalDate getFecha() {
-		return fecha;
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
+	}
+	
+	public LocalDate getFechaFin() {
+		return fechaFin;
 	}
 
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
+	public void setFechaInicio(LocalDate fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	
+	public void setFechaFin(LocalDate fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public String getLugar() {

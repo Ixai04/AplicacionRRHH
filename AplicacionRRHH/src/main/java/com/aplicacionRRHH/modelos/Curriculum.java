@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 
@@ -30,16 +31,21 @@ public class Curriculum implements Serializable{
     @JoinColumn(name="id_Candidato", nullable=false)
     private Candidato candidato;
 	
+	
+	@OneToMany(mappedBy="curriculum")
+    private Set<CurriculumParametros> curriculumParametros;
+	
 	public Curriculum() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Curriculum(@NotNull Long id, @NotNull  String nombre, Candidato candidato) {
+	public Curriculum(@NotNull Long id, @NotNull  String nombre, Candidato candidato, Set<CurriculumParametros> curriculumParametros) {
 		super();
 		Id = id;
 		this.nombre = nombre;
 		this.candidato = candidato;
+		this.curriculumParametros = curriculumParametros;
 	}
 
 	public Long getId() {
@@ -67,6 +73,13 @@ public class Curriculum implements Serializable{
 		this.candidato = candidato;
 	}
 	
+	public Set<CurriculumParametros> getCurriculumParametros() {
+		return curriculumParametros;
+	}
+
+	public void setCurriculumParametros(Set<CurriculumParametros> curriculumParametros) {
+		this.curriculumParametros = curriculumParametros;
+	}
 	
 	
 

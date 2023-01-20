@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
 
 import jakarta.persistence.EntityManager;
@@ -33,6 +34,18 @@ public class ConvocatoriaDaoImpl implements ConvocatoriaDao {
 			em.persist(convocatoria);
 		}
 
+	}
+	
+
+	@Override
+	public Convocatoria findOne(Long id) {
+		return em.find(Convocatoria.class, id);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		em.remove(findOne(id));
 	}
 
 }

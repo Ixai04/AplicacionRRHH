@@ -37,12 +37,12 @@ public class EmpleadosController {
 	@Autowired
 	private RolDao daoRol;
 	
-	private Usuario usuario;
+	//private Usuario usuario;
 	
 	
 	@GetMapping("/verEmpleado")
 	public String inicio(Model model){
-		model.addAttribute("usuario", daoUsuario.findOne(3L));
+		model.addAttribute("usuario", daoUsuario.findUsuario().get(0));
 		return "VerEmpleado";
 	}
 	
@@ -61,29 +61,4 @@ public class EmpleadosController {
 		return "redirect:/verEmpleado";
 	}
 	
-	@GetMapping("/nuevo3")
-	public String nuevoEmpleado(Map<String, Object> model){
-
-		Usuario usuario = new Usuario();
-		usuario.setLocalidad(daoLocalidad.findOne(3L));
-		model.put("usuario", usuario);
-		model.put("localidades", daoLocalidad.findLocalidad());
-		return "nuevoEmpleado";
-	}
-	
-	@PostMapping("/nuevo3")
-	public String crearConvocatoria(Usuario usuario) {
-
-		/*
-		if(result.hasErrors()) {
-			return "NuevoCandidato";
-		}
-		*/
-
-		usuario.setLocalidad(daoLocalidad.findOne(3L));
-		daoUsuario.save(usuario);
-		return "redirect:/usuarios/todos";
-	}
-	
-
 }

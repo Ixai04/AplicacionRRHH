@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Lista candidatos</title>
+<title>Lista convocatorias</title>
 
 <style type="text/css">
 table {
@@ -49,36 +49,30 @@ th, td {
 <body>
 	<div class="principal">
 		<div>
-			<a href="candidatos/nuevo">Nuevo</a>
+			<a href="convocatoria/nueva">Crear</a>
 			
-			<table class="candidatos">
-				<caption>Candidatos</caption>
+			<table class="convocatorias">
+				<caption>Convocatorias</caption>
 				<thead>
 					<tr>
+						<th></th>
 						<th>ID</th>
-						<th>Nombre</th>
-						<th>Apellido 1</th>
-						<th>Localidad</th>
-						<th>Curriculums</th>
+						<th>Puesto de Trabajo</th>
+						<th>Fecha Inicio</th>
+						<th>Fecha Fin</th>
+						<th>Lugar</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="candidato: ${candidatos}">
-						<td><span th:text="${candidato.id}"></span></td>
-						<td><span th:text="${candidato.nombre}"></span></td>
-						<td><span th:text="${candidato.apellido1}"></span></td>
-						<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
-						<td>
-							<span th:if="${candidato.curriculum != null}">
-								<span th:text="${candidato.curriculum.nombre}"></span>
-								<button class="botonPeque"><a th:href="@{/eliminarCurriculum/} + ${candidato.id}">x</a></button>
-							</span>
-							<button class="botonGrande" th:if="${candidato.curriculum == null}" >
-								<a th:href="@{/nuevoCurriculum/} + ${candidato.id}">+ Añadir</a>
-							</button>
-						</td>
-						<td><a th:href="@{/candidato/ver/} + ${candidato.id}">Ver</a></td>
-						<td><a th:href="@{/candidato/eliminar/} + ${candidato.id}">Eliminar</a></td>
+					<tr th:each="convocatoria: ${convocatorias}">
+						<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}">Candidatos</a></td>
+						<td><span th:text="${convocatoria.id}"></span></td>
+						<td><span th:text="${convocatoria.puestoTrabajo}"></span></td>
+						<td><span th:text="${convocatoria.fechaInicio}"></span></td>
+						<td><span th:text="${convocatoria.fechaFin}"></span></td>
+						<td><span th:text="${convocatoria.lugar}"></span></td>
+						<td><a th:href="@{/convocatoria/ver/} + ${convocatoria.id}">Ver</a></td>
+						<td><a th:href="@{/convocatoria/eliminar/} + ${convocatoria.id}">Eliminar</a></td>
 					</tr>
 
 				</tbody>

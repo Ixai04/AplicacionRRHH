@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
 import com.aplicacionRRHH.Dao.CurriculumDao;
+import com.aplicacionRRHH.Dao.CurriculumParametrosDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
 import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
 import com.aplicacionRRHH.modelos.Curriculum;
+import com.aplicacionRRHH.modelos.CurriculumParametros;
 import com.aplicacionRRHH.modelos.Localidad;
+import com.aplicacionRRHH.modelos.Parametro;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +40,9 @@ public class CandidatoController {
 	@Autowired
 	private ParametroDao daoParametro;
 	
+	@Autowired
+	private CurriculumParametrosDao daoCurriculumParametros;
+	
 	//----------------------------------------------------------------------------------------------
 	//----------------------------------------- CANDIDATOS -----------------------------------------
 	//----------------------------------------------------------------------------------------------
@@ -47,7 +53,7 @@ public class CandidatoController {
 		return "Candidatos";
 	}
 	
-	@GetMapping("/nuevoCandidato")
+	@GetMapping("/candidatos/nuevo")
 	public String nuevoCandidato(Map<String, Object> model){
 
 		Candidato candidato = new Candidato();
@@ -57,21 +63,21 @@ public class CandidatoController {
 		return "NuevoCandidato";
 	}
 	
-	@PostMapping("/nuevoCandidato")
-	public String crearCandidato(Candidato candidato) {
+	@PostMapping("/candidatos/nuevo")
+	public String crearCandidato(Candidato candidato, BindingResult result) {
 
-		/*
+
+		candidato.setLocalidad(daoLocalidad.findOne(3L));
+		
 		if(result.hasErrors()) {
 			return "NuevoCandidato";
 		}
-		*/
-
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
+		
 		daoCandidato.save(candidato);
 		return "redirect:/candidatos";
 	}
 	
-	@GetMapping("candidato/{id}")
+	@GetMapping("candidato/ver/{id}")
 	public String verCandidato(@PathVariable("id") long id, Map<String, Object> model){
 
 		Candidato candidato = daoCandidato.findOne(id);
@@ -82,7 +88,6 @@ public class CandidatoController {
 	
 	@PostMapping("/actualizar")
 	public String actualizarCandidato(@Valid Candidato candidato, BindingResult result) {
-		//(@ModelAttribute Candidato candidato)
 
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		
@@ -94,7 +99,7 @@ public class CandidatoController {
 		return "redirect:/candidatos";
 	}
 	
-	@GetMapping(value="/eliminar/{id}")
+	@GetMapping(value="candidato/eliminar/{id}")
 	public String eliminar(@PathVariable(value="id") Long id) {
 		if(id > 0) {
 			daoCandidato.delete(id);
@@ -127,12 +132,31 @@ public class CandidatoController {
 
 		curriculum.setCandidato(daoCandidato.findOne(id));
 		daoCurriculum.save(curriculum);
+		
+		Long lastCurriculumID = daoCurriculum.findLastCurriculumID();
+		Curriculum lastCurriculum = daoCurriculum.findOne(lastCurriculumID);
+		
+		for (Parametro parametro : daoParametro.findParametro()) {
+			CurriculumParametros curriculumParametro = new CurriculumParametros();
+
+			curriculumParametro.setParametro(daoParametro.findOne(parametro.getId()));
+			curriculumParametro.setCurriculum(lastCurriculum);
+			curriculumParametro.setValoracion(5);
+			
+			daoCurriculumParametros.save(curriculumParametro);
+		}
+		
 		return "redirect:/candidatos";
 	}
 	
 	@GetMapping(value="/eliminarCurriculum/{id}")
     public String eliminarCurriculum(@PathVariable(value="id") Long id) {
         if(id > 0) {
+        	
+        	for (CurriculumParametros currParr : daoCandidato.findOne(id).getCurriculum().getCurriculumParametros()) {
+				daoCurriculumParametros.delete(currParr.getId());
+			}
+			
             daoCurriculum.delete(daoCandidato.findOne(id).getCurriculum().getId());
         }
         return "redirect:/candidatos";

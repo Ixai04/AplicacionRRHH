@@ -9,4 +9,8 @@ public interface ConvocatoriaDao {
 	public List<Convocatoria> findConvocatoria();
 	
 	public void save(Convocatoria convocatoria);
+	
+	public Convocatoria findOne(Long id);
+
+	public void delete(Long id);
 }

@@ -49,6 +49,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	public Usuario findOne(Long id) {
 		return em.find(Usuario.class, id);
 	}
+	
 
 	@Override
 	@Transactional

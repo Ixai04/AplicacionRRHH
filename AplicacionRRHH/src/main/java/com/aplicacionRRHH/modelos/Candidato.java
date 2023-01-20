@@ -62,7 +62,7 @@ public class Candidato implements Serializable{
 	@OneToMany(mappedBy="candidato")
     private Set<Usuario> usuarios;
 
-	@OneToOne(mappedBy="candidato")
+	@OneToOne(mappedBy="candidato", optional=true)
     private Curriculum curriculum;
 
 	

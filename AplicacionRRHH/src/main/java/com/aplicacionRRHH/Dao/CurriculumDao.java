@@ -12,6 +12,10 @@ public interface CurriculumDao {
 	public Curriculum findOne(Long id);
 
 	public void delete(Long id);
+	
+	// PERSONALIZADOS
+	
+	public Long findLastCurriculumID();
 }
 
 

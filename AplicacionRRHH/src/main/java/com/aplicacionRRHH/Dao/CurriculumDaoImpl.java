@@ -23,6 +23,17 @@ public class CurriculumDaoImpl implements CurriculumDao{
 		List<Curriculum> listCurriculum = em.createQuery("from Curriculum").getResultList();
 		return listCurriculum;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public Long findLastCurriculumID() {
+		List<Curriculum> listCurriculum = em.createQuery("FROM Curriculum").getResultList();
+		if(listCurriculum.size() > 0) {
+			System.out.println("Tamaño de la lista: " + listCurriculum.size());
+			return listCurriculum.get(listCurriculum.size()-1).getId();
+		}
+		
+		return 0L;
+	}
 
 	@Override
 	@Transactional
