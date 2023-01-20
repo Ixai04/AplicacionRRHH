@@ -12,7 +12,13 @@
   display: grid;
   place-items: center;
    font-weight: bold;
+
 }
+
+h1{
+text-align: center;
+}
+
 
 p{
 font-weight: 3;
@@ -21,7 +27,7 @@ color:#D0312D;
 
 .act{
 
-	width:80%;
+	width:100%;
 	padding:8px 18px;
 	margin-top:32px;
 	border:1px solid #000;
@@ -37,30 +43,40 @@ color:#D0312D;
 
 }
 
+.divs{
+
+display: inline-block;
+width:200px;
+}
+
+
+
 
 form{
-	width:210px;
+	width:440px;
 	padding:16px;
 	border-radius:10px;
 	margin:auto;
 	background-color:#ccc;
+	
+	align-items: center;
 }
-
 
 </style>
 </head>
 <body>
-
+<h1><b>Mis Datos</b></h1>
 <div class="form-container">
+
 	<form th:action="@{/actualizarEmpleado}" th:object="${usuario}" method="post">	
-	 
-	<div>
+<div class="divs">	 
+	<div >
 	<label>ID : </label>			
 	<input class="text" disabled  type="text" name="id" th:field="*{id}"/>
 	<input class="text" type="hidden" name="id" th:field="*{id}"/>
 	</div>	<br>
 	
-	<div>
+	<div  >
 	<label  for="nombre">Nombre : </label>
 	<input class="text" type="text" name="nombre" th:field="*{nombre}"/>
 	<p  th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
@@ -84,7 +100,9 @@ form{
 	<input class="text" type="text" name="username" th:field="*{username}"/>
 		<p  th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>	
 	</div> <br>
-	
+</div>
+
+<div class="divs">	
 	<div>
 	<label  for="direccion">Direccion :</label>
 	<input class="text" type="text" name="direccion" th:field="*{direccion}"/>	
@@ -92,10 +110,10 @@ form{
 	</div> <br>
 	
 	<div>
-	<label  for="password">Password :</label>
-	<input class="text" type="text" name="password" th:field="*{password}"/>	
+	
+	<input class="text" type="hidden" name="password" th:field="*{password}"/>	
 		<p  th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>	
-	</div> <br>
+	</div> 
 	
 	<div>
 	<label  for="correo">Correo :</label>
@@ -121,13 +139,14 @@ form{
 	<!-- Nos falta la validacion para que no este vacio que nose porque peta si ponemos el hasErrors -->
 	</div> <br>
 
-
+</div>
 
 		
 
 <input class="act" type="submit" value = "ACTUALIZAR"></input> 
-</div>
+
 </form>		
+</div>
 
 </body>
 </html>
