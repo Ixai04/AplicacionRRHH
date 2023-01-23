@@ -1,6 +1,7 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -27,6 +28,10 @@ public class Curriculum implements Serializable{
 	@NotNull
 	String nombre;
 
+	@NotNull
+	@Column(name = "fecha")
+	LocalDate fecha;
+	
 	@OneToOne
     @JoinColumn(name="id_Candidato", nullable=false)
     private Candidato candidato;
@@ -40,12 +45,13 @@ public class Curriculum implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Curriculum(@NotNull Long id, @NotNull  String nombre, Candidato candidato, Set<CurriculumParametros> curriculumParametros) {
+	public Curriculum(@NotNull Long id, @NotNull  String nombre, Candidato candidato, Set<CurriculumParametros> curriculumParametros, LocalDate fecha) {
 		super();
 		Id = id;
 		this.nombre = nombre;
 		this.candidato = candidato;
 		this.curriculumParametros = curriculumParametros;
+		this.fecha = fecha;
 	}
 
 	public Long getId() {
@@ -80,6 +86,15 @@ public class Curriculum implements Serializable{
 	public void setCurriculumParametros(Set<CurriculumParametros> curriculumParametros) {
 		this.curriculumParametros = curriculumParametros;
 	}
+	
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+	
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
 	
 	
 

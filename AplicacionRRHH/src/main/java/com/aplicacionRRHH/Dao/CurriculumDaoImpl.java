@@ -1,5 +1,7 @@
 package com.aplicacionRRHH.Dao;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -21,6 +23,13 @@ public class CurriculumDaoImpl implements CurriculumDao{
 	@SuppressWarnings("unchecked")
 	public List<Curriculum> findCurriculum() {
 		List<Curriculum> listCurriculum = em.createQuery("from Curriculum").getResultList();
+		return listCurriculum;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Curriculum> findCurriculumDesdeFecha(LocalDate fecha) {
+		List<Curriculum> listCurriculum = em.createQuery("from Curriculum where fecha > '2023-01-02'").getResultList();
 		return listCurriculum;
 	}
 	

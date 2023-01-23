@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.aplicacionRRHH.Dao.CandidatoDao;
 import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.Dao.ConvocatoriaDao;
+import com.aplicacionRRHH.Dao.CurriculumDao;
 import com.aplicacionRRHH.Dao.CurriculumParametrosDao;
 import com.aplicacionRRHH.Dao.EntrevistaDao;
 import com.aplicacionRRHH.modelos.Candidato;
@@ -37,6 +38,9 @@ public class BuscadorController {
 	
 	@Autowired
 	private ParametroDao daoParametro;
+	
+	@Autowired
+	private CurriculumDao daoCurriculum;
 	
 	@Autowired
 	private CurriculumParametrosDao daoCurriculumParametros;
@@ -67,6 +71,8 @@ public class BuscadorController {
 		if(candidato.getCurriculum() != null) {
 			model.addAttribute("listaCurriculumParametros", daoCurriculumParametros.findFromIDcurriculum(candidato.getCurriculum().getId()));
 		}
+		model.addAttribute("fecha", convocatoria.getFechaInicio());
+		model.addAttribute("listaCurriculums", daoCurriculum.findCurriculumDesdeFecha(convocatoria.getFechaInicio()));
 		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());
 		model.addAttribute("candidatosTodos", daoCandidato.findCandidato());
 		return "ConvocatoriaCandidatos";

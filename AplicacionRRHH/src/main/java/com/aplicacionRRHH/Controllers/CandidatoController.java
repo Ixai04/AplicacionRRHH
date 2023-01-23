@@ -1,4 +1,8 @@
 package com.aplicacionRRHH.Controllers;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
 import com.aplicacionRRHH.Dao.CurriculumDao;
@@ -17,10 +21,8 @@ import com.aplicacionRRHH.Dao.CurriculumParametrosDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
 import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.modelos.Candidato;
-import com.aplicacionRRHH.modelos.Convocatoria;
 import com.aplicacionRRHH.modelos.Curriculum;
 import com.aplicacionRRHH.modelos.CurriculumParametros;
-import com.aplicacionRRHH.modelos.Localidad;
 import com.aplicacionRRHH.modelos.Parametro;
 
 import jakarta.validation.Valid;
@@ -122,15 +124,33 @@ public class CandidatoController {
 	}
 	
 	@PostMapping("/nuevoCurriculum/{id}")
-	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum) {
+	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model) {
 
-		/*
-		if(result.hasErrors()) {
-			return "NuevoCandidato";
-		}
-		*/
-
+		curriculum.setNombre(daoCandidato.findOne(id).getNombre() + "-cv.pdf");
 		curriculum.setCandidato(daoCandidato.findOne(id));
+		curriculum.setFecha(LocalDate.now());
+		
+		if(file.getSize() > 37386) {
+			
+			model.put("curriculum", curriculum);
+			model.put("candidato", daoCandidato.findOne(id));
+			model.put("parametros", daoParametro.findParametro());
+			model.put("errorArchivo","Demasiado grande, intentelo de nuevo con uno mas pequeño");
+			return "NuevoCurriculum";
+		}
+		
+			 String fileName = curriculum.getNombre() + ".pdf";
+				try {
+					file.transferTo(new File("C:\\Curriculums\\" + fileName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		 
+
+		model.put("file", file);
+		model.put("filesize", file.getSize());
+
+		
 		daoCurriculum.save(curriculum);
 		
 		Long lastCurriculumID = daoCurriculum.findLastCurriculumID();
@@ -146,6 +166,30 @@ public class CandidatoController {
 			daoCurriculumParametros.save(curriculumParametro);
 		}
 		
+		return "redirect:/curriculum/" + curriculum.getId();
+	}
+	
+	@GetMapping("curriculum/{id}")
+	public String verCurriculum(@PathVariable("id") long id, Map<String, Object> model){
+
+		Curriculum curriculum = daoCurriculum.findOne(id);
+		
+		model.put("curriculum", curriculum);
+		model.put("candidato", curriculum.getCandidato());
+		model.put("listaCurriculumParametros", daoCurriculumParametros.findFromIDcurriculum(id));
+		return "VerCurriculum";
+	}
+	
+	@PostMapping("curriculum/{id}/actualizar")
+	public String actualizarCurriculum(@Valid Candidato candidato, BindingResult result) {
+
+		candidato.setLocalidad(daoLocalidad.findOne(3L));
+		
+		if(result.hasErrors()) {
+			return "VerCandidato";
+		}
+		
+		daoCandidato.save(candidato);
 		return "redirect:/candidatos";
 	}
 	
@@ -161,5 +205,20 @@ public class CandidatoController {
         }
         return "redirect:/candidatos";
     }
+	
+	@GetMapping("curriculum/descargar/{id}")
+	public String descargarCurriculum(@PathVariable("id") long id, Map<String, Object> model){
+
+		Curriculum curriculum = daoCurriculum.findOne(id);
+
+		//EMPEZAR ACÁ
+		
+				//-----> TO-DO: ENVIAR DESCARGA DEL ARCHIVO CON EL NOMBRE: CURRICULUM.NOMBRE
+		
+		//ACABAR ACÁ
+		
+		
+		return "redirect:/curriculum/"+id;
+	}
 	
 }

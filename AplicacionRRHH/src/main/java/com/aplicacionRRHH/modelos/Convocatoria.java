@@ -1,12 +1,14 @@
 package com.aplicacionRRHH.modelos;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -34,11 +36,14 @@ public class Convocatoria {
 	@NotEmpty
 	String lugar;
 
+	@OneToMany(mappedBy="convocatoria")
+    private Set<Entrevista> entrevistas;
+	
 	public Convocatoria() {
 		super();
 	}
 
-	public Convocatoria(Long id, @NotEmpty String puestoTrabajo, @NotNull LocalDate fechaInicio, @NotNull LocalDate fechaFin, @NotEmpty String lugar) {
+	public Convocatoria(Long id, @NotEmpty String puestoTrabajo, @NotNull LocalDate fechaInicio, @NotNull LocalDate fechaFin, @NotEmpty String lugar, Set<Entrevista> entrevistas) {
 		super();
 		Id = id;
 		this.puestoTrabajo = puestoTrabajo;
@@ -85,6 +90,14 @@ public class Convocatoria {
 
 	public void setLugar(String lugar) {
 		this.lugar = lugar;
+	}
+	
+	public Set<Entrevista> getEntrevistas() {
+		return entrevistas;
+	}
+
+	public void setEntrevistas(Set<Entrevista> entrevistas) {
+		this.entrevistas = entrevistas;
 	}
 	
 	

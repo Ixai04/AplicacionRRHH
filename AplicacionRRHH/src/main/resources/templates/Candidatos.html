@@ -26,21 +26,7 @@ th, td {
 	padding-left: 10px;
 }
 
-.botonPeque{
-	width: 10px;
-	height: 10px;
-	padding: 0px;
-	font-size: 0.7em;
-	background-color: black;
-	color: green;
-	border-radius: 20px;
-	border: 1px solid red;
-}
-.botonPeque a{
-	color: white;
-	text-decoration: none;
-}
-.botonGrande{
+button{
 	font-size: 0.9em;
 }
 
@@ -71,9 +57,10 @@ th, td {
 						<td>
 							<span th:if="${candidato.curriculum != null}">
 								<span th:text="${candidato.curriculum.nombre}"></span>
-								<button class="botonPeque"><a th:href="@{/eliminarCurriculum/} + ${candidato.id}">x</a></button>
+								<button><a th:href="@{/curriculum/} + ${candidato.curriculum.id}">Ver</a></button>
+								<button><a th:href="@{/eliminarCurriculum/} + ${candidato.id}">X</a></button>
 							</span>
-							<button class="botonGrande" th:if="${candidato.curriculum == null}" >
+							<button th:if="${candidato.curriculum == null}" >
 								<a th:href="@{/nuevoCurriculum/} + ${candidato.id}">+ Añadir</a>
 							</button>
 						</td>
