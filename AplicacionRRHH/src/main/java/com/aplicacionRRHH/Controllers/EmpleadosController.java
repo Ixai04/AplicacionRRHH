@@ -20,6 +20,7 @@ import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
 import com.aplicacionRRHH.modelos.Usuario;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -41,13 +42,36 @@ public class EmpleadosController {
 	
 	
 	@GetMapping("/verEmpleado")
-	public String inicio(Model model){
+	public String inicio(Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "empleado");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
+		
 		model.addAttribute("usuario", daoUsuario.findUsuario().get(0));
 		return "VerEmpleado";
 	}
 	
 	@PostMapping("/actualizarEmpleado")
-	public String actualizar(@Valid Usuario usuario, BindingResult result){
+	public String actualizar(@Valid Usuario empleado, Model model, BindingResult result, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "empleado");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 		
 		if(result.hasErrors()) {
 			return "VerEmpleado";
@@ -57,7 +81,7 @@ public class EmpleadosController {
 		usuario.setRol(daoRol.findOne(3L));
 		usuario.setCandidato(daoCandidato.findOne(1L));
 		usuario.setLocalidad(daoLocalidad.findOne(1L));
-		daoUsuario.save(usuario);
+		daoUsuario.save(empleado);
 		return "redirect:/verEmpleado";
 	}
 	

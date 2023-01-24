@@ -17,7 +17,9 @@ import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
 import com.aplicacionRRHH.modelos.Parametro;
+import com.aplicacionRRHH.modelos.Usuario;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -29,7 +31,18 @@ public class ParametrosController {
 	
 	
 	@GetMapping("/configParametros")
-	public String inicio(Model model){
+	public String inicio(Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "admin");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 		Parametro parametro = new Parametro();
 		model.addAttribute("nuevoParametro", parametro);
 		model.addAttribute("parametros", daoParametro.findParametro());
@@ -40,14 +53,21 @@ public class ParametrosController {
 	
 	
 	@PostMapping("/crearParametro")
-	public String crearParametro(@Valid Parametro parametro, BindingResult result) {
-
+	public String crearParametro(@Valid Parametro parametro, BindingResult result, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "admin");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 		
 		if(result.hasErrors()) {
 			return "ConfigParametros";
 		}
-		
-
 		
 		daoParametro.save(parametro);
 		return "redirect:/configParametros";

@@ -3,18 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Inicio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-	<nav>
-		<ul>
-			<li th:if="${(usuario != null) && (usuario.rol.nombre == 'empleado')}"><a th:href="@{/verEmpleado}">Empleado</a></li>
-			
-			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a th:href="@{/candidatos/todos}">Candidatos</a></li>
-			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}"><a th:href="@{/convocatorias}">Convocatorias</a></li>
-			
-			<li  th:if="${(usuario != null) && (usuario.rol.nombre == 'admin')}"><a th:href="@{/configParametros}">Admin</a></li>
-		</ul>
-	</nav>
+<div th:replace="../fragments/navbar :: header"></div>
 
 	<div>
 		<div th:if="${usuario} == null">

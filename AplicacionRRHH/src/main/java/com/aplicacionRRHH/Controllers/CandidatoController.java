@@ -24,7 +24,9 @@ import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Curriculum;
 import com.aplicacionRRHH.modelos.CurriculumParametros;
 import com.aplicacionRRHH.modelos.Parametro;
+import com.aplicacionRRHH.modelos.Usuario;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -45,18 +47,40 @@ public class CandidatoController {
 	@Autowired
 	private CurriculumParametrosDao daoCurriculumParametros;
 	
+	
 	//----------------------------------------------------------------------------------------------
 	//----------------------------------------- CANDIDATOS -----------------------------------------
 	//----------------------------------------------------------------------------------------------
 	
 	@GetMapping("/candidatos")
-	public String inicio(Model model){
+	public String inicio(Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 		model.addAttribute("candidatos", daoCandidato.findCandidato());
 		return "Candidatos";
 	}
 	
 	@GetMapping("/candidatos/nuevo")
-	public String nuevoCandidato(Map<String, Object> model){
+	public String nuevoCandidato(Map<String, Object> model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		Candidato candidato = new Candidato();
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
@@ -66,7 +90,17 @@ public class CandidatoController {
 	}
 	
 	@PostMapping("/candidatos/nuevo")
-	public String crearCandidato(Candidato candidato, BindingResult result) {
+	public String crearCandidato(Candidato candidato, BindingResult result, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
@@ -80,7 +114,17 @@ public class CandidatoController {
 	}
 	
 	@GetMapping("candidato/ver/{id}")
-	public String verCandidato(@PathVariable("id") long id, Map<String, Object> model){
+	public String verCandidato(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		Candidato candidato = daoCandidato.findOne(id);
 		model.put("candidato", candidato);
@@ -89,7 +133,17 @@ public class CandidatoController {
 	}
 	
 	@PostMapping("/actualizar")
-	public String actualizarCandidato(@Valid Candidato candidato, BindingResult result) {
+	public String actualizarCandidato(@Valid Candidato candidato, BindingResult result, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		
@@ -102,7 +156,18 @@ public class CandidatoController {
 	}
 	
 	@GetMapping(value="candidato/eliminar/{id}")
-	public String eliminar(@PathVariable(value="id") Long id) {
+	public String eliminar(@PathVariable(value="id") Long id, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 		if(id > 0) {
 			daoCandidato.delete(id);
 		}
@@ -114,7 +179,17 @@ public class CandidatoController {
 	//----------------------------------------------------------------------------------------------
 	
 	@GetMapping("/nuevoCurriculum/{id}")
-	public String nuevoCurriculum(@PathVariable(value="id") Long id, Map<String, Object> model){
+	public String nuevoCurriculum(@PathVariable(value="id") Long id, Map<String, Object> model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		Curriculum curriculum = new Curriculum();
 		model.put("curriculum", curriculum);
@@ -124,7 +199,17 @@ public class CandidatoController {
 	}
 	
 	@PostMapping("/nuevoCurriculum/{id}")
-	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model) {
+	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		curriculum.setNombre(daoCandidato.findOne(id).getNombre() + "-cv.pdf");
 		curriculum.setCandidato(daoCandidato.findOne(id));
@@ -170,7 +255,17 @@ public class CandidatoController {
 	}
 	
 	@GetMapping("curriculum/{id}")
-	public String verCurriculum(@PathVariable("id") long id, Map<String, Object> model){
+	public String verCurriculum(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
 
 		Curriculum curriculum = daoCurriculum.findOne(id);
 		
@@ -181,7 +276,18 @@ public class CandidatoController {
 	}
 	
 	@PostMapping("curriculum/{id}/actualizar")
-	public String actualizarCurriculum(@Valid Candidato candidato, BindingResult result) {
+	public String actualizarCurriculum(@Valid Candidato candidato, BindingResult result, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		
@@ -194,7 +300,19 @@ public class CandidatoController {
 	}
 	
 	@GetMapping(value="/eliminarCurriculum/{id}")
-    public String eliminarCurriculum(@PathVariable(value="id") Long id) {
+    public String eliminarCurriculum(@PathVariable(value="id") Long id, Model model, HttpServletRequest request) {
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+
+
         if(id > 0) {
         	
         	for (CurriculumParametros currParr : daoCandidato.findOne(id).getCurriculum().getCurriculumParametros()) {
@@ -207,7 +325,18 @@ public class CandidatoController {
     }
 	
 	@GetMapping("curriculum/descargar/{id}")
-	public String descargarCurriculum(@PathVariable("id") long id, Map<String, Object> model){
+	public String descargarCurriculum(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.put("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
 
 		Curriculum curriculum = daoCurriculum.findOne(id);
 

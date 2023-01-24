@@ -21,7 +21,9 @@ import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Convocatoria;
 import com.aplicacionRRHH.modelos.Curriculum;
 import com.aplicacionRRHH.modelos.Localidad;
+import com.aplicacionRRHH.modelos.Usuario;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -50,7 +52,18 @@ public class BuscadorController {
 	//----------------------------------------------------------------------------------------------
 	
 	@GetMapping("/convocatoria/{id}/candidatos")
-	public String buscadorConvocatoria(@PathVariable("id") long id, Model model){
+	public String buscadorConvocatoria(@PathVariable("id") long id, Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+				
 		model.addAttribute("convocatoria", daoConvocatoria.findOne(id));
 		
 		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());
@@ -61,7 +74,18 @@ public class BuscadorController {
 	
 	@GetMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}")
 	public String buscadorConvocatoriaverCandidato(@PathVariable("idConvocatoria") long idConvocatoria,
-			@PathVariable("idCandidato") long idCandidato, Model model){
+			@PathVariable("idCandidato") long idCandidato, Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+				
 
 		Candidato candidato = daoCandidato.findOne(idCandidato);
 		Convocatoria convocatoria = daoConvocatoria.findOne(idConvocatoria);
@@ -78,64 +102,5 @@ public class BuscadorController {
 		return "ConvocatoriaCandidatos";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*-------------------------- DE AQUÍ PARA ABAJO SOLO SON EJEMPLOS --------------------------------------*/
-	
-	@GetMapping("/candidatos/nuevoa")
-	public String nuevoCandidato(Map<String, Object> model){
-
-		Candidato candidato = new Candidato();
-		model.put("candidato", candidato);
-		return "NuevoCandidato";
-	}
-	
-	@PostMapping("/candidatos/nuevoa")
-	public String crearCandidato(Candidato candidato) {
-
-		/*
-		if(result.hasErrors()) {
-			return "NuevoCandidato";
-		}
-		*/
-
-		daoCandidato.save(candidato);
-		return "redirect:/candidatos";
-	}
-	
-	@GetMapping("candidato/ver/{id}/a")
-	public String verCandidato(@PathVariable("id") long id, Map<String, Object> model){
-
-		Candidato candidato = daoCandidato.findOne(id);
-		model.put("candidato", candidato);
-		return "VerCandidato";
-	}
-	
-	@PostMapping("/actualizara")
-	public String actualizarCandidato(@Valid Candidato candidato, BindingResult result) {
-
-		
-		if(result.hasErrors()) {
-			return "VerCandidato";
-		}
-		
-		daoCandidato.save(candidato);
-		return "redirect:/candidatos";
-	}
-	
-	@GetMapping(value="candidato/eliminar/{id}/a")
-	public String eliminar(@PathVariable(value="id") Long id) {
-		if(id > 0) {
-			daoCandidato.delete(id);
-		}
-		return "redirect:/candidatos";
-	}
 	
 }
