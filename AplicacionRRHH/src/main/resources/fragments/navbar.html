@@ -8,13 +8,13 @@
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
 	<nav id="navbar" th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-	  <a th:if="${usuario != null}" class="navbar-brand" th:href="@{/logout}">Cerrar sesión</a>
+	  <a th:if="${usuario != null}" class="navbar-brand" th:href="@{/logout}">Cerrar sesión (<span th:text="${usuario.rol.nombre}"></span>)</a>
 	  
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
-	  <div class="collapse navbar-collapse" id="navbarNav">
-	    <ul class="navbar-nav">
+	  <div id="navbarNav">
+	    <ul>
 	    
 	    <!-- EMPLEADO -->
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'empleado')}" class="nav-item active">

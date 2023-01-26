@@ -67,7 +67,7 @@ th, td {
 				</thead>
 				<tbody>
 					<tr th:each="convocatoria: ${convocatorias}">
-						<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}">Candidatos</a></td>
+						<td><a th:href="@{/convocatoria/} + ${convocatoria.id}">Candidatos</a></td>
 						<td><span th:text="${convocatoria.id}"></span></td>
 						<td><span th:text="${convocatoria.puestoTrabajo}"></span></td>
 						<td><span th:text="${convocatoria.fechaInicio}"></span></td>

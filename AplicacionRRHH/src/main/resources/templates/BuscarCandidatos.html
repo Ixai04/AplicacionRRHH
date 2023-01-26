@@ -46,21 +46,6 @@
 	display: inline-block;
 }
 
-.inlineBlock div a{
-	display: block;
-	background-color: white;
-  	color: black;
-  	border: 2px solid #444444;
-  	padding: 5px 5px;
-  	text-align: center;
-  	text-decoration: none;
-}
-
-.inlineBlock div a:hover, .inlineBlock div a:active {
-  background-color: #444444;
-  color: white;
-}
-
 .tablasCandidatos {
 	margin-bottom: 20px;
 	border: 1px solid black;
@@ -89,7 +74,7 @@ fieldset{
 }
 
 tr.selected{
-	background-color: #DDEEFF;
+	background-color: #DDFFEE;
 }
 
 </style>
@@ -102,33 +87,19 @@ tr.selected{
 	<a style="float: left;" th:href="@{/convocatorias}">Volver</a>
 			
 	<div class="divConvocatoria">
+		
 		<div class="div1">
-			
-			<h1>Datos Convocatoria</h1>
-			<fieldset>
-				<div class="inlineBlock">
-					<div>
-						<label>Puesto de Trabajo</label>
-						<input th:field="${convocatoria.puestoTrabajo}" disabled type="text"></input>
-					</div>
-					<div>
-						<label>Fecha Inicio</label>
-						<input th:field="${convocatoria.fechaInicio}" disabled type="date"></input>
-					</div>
-					<div>
-						<label>Estado: <span style="color: green;">Abierta</span></label>
-						<a href="#CerrarConvocatoria">Cerrar Convocatoria</a>
-					</div>
-				</div>
-			</fieldset>
-			
+			<form>
+				<fieldset>
+					<input type="radio" name="parametro" id="0">Todos</input>
+					<input type="radio" name="parametro" th:each="parametro: ${listaParametros}" th:id="${parametro.id}" th:text="${parametro.nombre}"/>
+				</fieldset>
+			</form>
 		</div>
 		
 		<div class="div2">
-		
 			<div>
-				<h1>Candidatos a entrevistas</h1>
-				
+				<h1>Todos</h1>
 				<table class="tablasCandidatos">
 						<thead>
 							<tr>
@@ -140,22 +111,24 @@ tr.selected{
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="entrevista: ${convocatoria.entrevistas}" th:attrappend="class=${(candidato != null) && (entrevista.candidato.id == candidato.id)}?@{selected}">
-								<td><span th:text="${entrevista.candidato.id}"></span></td>
-								<td><span th:text="${entrevista.candidato.nombre}"></span></td>
-								<td><span th:text="${entrevista.candidato.apellido1}"></span></td>
-								<td><span th:text="${entrevista.candidato.localidad.nombre + ' (' +entrevista.candidato.localidad.provincia.nombre + ')'} "></span></td>
+							<tr th:each="curriculum: ${listaCurriculums}" th:attrappend="class=${(candidato != null) && (curriculum.candidato.id == candidato.id)}?@{selected}">
+								<td><span th:text="${curriculum.candidato.id}"></span></td>
+								<td><span th:text="${curriculum.candidato.nombre}"></span></td>
+								<td><span th:text="${curriculum.candidato.apellido1}"></span></td>
+								<td><span th:text="${curriculum.candidato.localidad.nombre + ' (' +curriculum.candidato.localidad.provincia.nombre + ')'} "></span></td>
 								<td>
-									<span th:if="${entrevista.candidato.curriculum != null}">
-										<span th:text="${entrevista.candidato.curriculum.nombre}"></span>
+									<span th:if="${curriculum.candidato.curriculum != null}">
+										<span th:text="${curriculum.candidato.curriculum.nombre}"></span>
 									</span>
 								</td>
-								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/} + ${entrevista.candidato.id}">Ver -></a></td>
+								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${curriculum.candidato.id}">Ver -></a></td>
+								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${curriculum.candidato.id} + @{/entrevista/nueva}">Entrevistar</a></td>
 							</tr>
+		
 						</tbody>
+		
+		
 					</table>
-					
-					<button><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}">AGREGAR CANDIDATOS</a></button>
 			</div>
 		</div>
 		</div>
@@ -168,7 +141,7 @@ tr.selected{
 	
 	<div th:if="${candidato != null}" class="divCandidato">
 		
-		<a th:href="@{/convocatoria/} + ${convocatoria.id}">Cerrar</a>
+		<a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}">Cerrar</a>
 		<fieldset>
 		    <legend>Información Personal</legend>
 		    <div>

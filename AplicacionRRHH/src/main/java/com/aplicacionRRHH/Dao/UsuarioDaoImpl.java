@@ -33,6 +33,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 		return null;
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getAllGestores() {
+		
+		List<Usuario> listaUsuarios = em.createQuery("from Usuario where rol = 2 ").getResultList();
+		
+		return listaUsuarios;
+	}
 
 	@Override
 	@Transactional

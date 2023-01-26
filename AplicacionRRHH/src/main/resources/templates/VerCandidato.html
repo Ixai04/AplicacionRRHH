@@ -91,24 +91,21 @@
 	</div>
 		
 	<!-------------------- LOCALIDAD -------------------->
-	<!--label class="clase2" for="localidad">Localidad</label>
+	<label class="clase2" for="localidad">Localidad</label>
 	<select  name="localidad" th:field="*{localidad}">
 		<option th:each="localidad : ${localidades}" th:value="${localidad}" th:text="${localidad.nombre + ' ('+ localidad.provincia.nombre +')'}"></option>
 	</select><br>
 	
-	<select  name="localidad">
-		<option th:each="localidad : ${localidades}" th:value="${localidad}" th:text="${localidad.nombre + ' ('+ localidad.provincia.nombre +')'}"></option>
-	</select><br-->
 	
 	
 	<!-------------------- DIRECCION -------------------->
-	<div class="clase1">
+	<!--div class="clase1">
 		<label class="clase2" for="direccion">Direccion</label>
 			<div class="clase3">
 				<input class="clase5" type="text" name="direccion" th:field="*{direccion}" th:errorclass="'clase4'"/>
 				<p class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></p>
 			</div>
-	</div>
+	</div-->
 	
 	<!-------------------- CODIGO POSTAL -------------------->
 	<div class="clase1">
