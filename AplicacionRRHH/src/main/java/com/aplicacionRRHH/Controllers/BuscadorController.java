@@ -118,14 +118,52 @@ public class BuscadorController {
 			model.addAttribute("usuario", usuario);
 		}
 		// -- FIN AUTENTICACIÓN
-				
+		
 		model.addAttribute("listaParametros", daoParametro.findParametro());
 		
 		model.addAttribute("convocatoria", daoConvocatoria.findOne(id));
 		List<Curriculum> listaCurriculums = daoCurriculum.findCurriculum();
-		System.out.println("Tamano de la lista de curriculums: " + listaCurriculums.size());
 		model.addAttribute("listaCurriculums", listaCurriculums);
 		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());
+		model.addAttribute("candidatosTodos", daoCandidato.findCandidato());
+		return "BuscarCandidatos";
+	}
+	
+	@PostMapping("/convocatoria/{id}/candidatos")
+	public String buscadorConvocatoriaPost(@PathVariable("id") long id, Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+
+		System.out.println(request.getParameter("parametroOrden"));
+		System.out.println(request.getParameter("parametroFiltro"));
+		
+		Long idParametroOrden = Long.parseLong(request.getParameter("parametroOrden"));
+		Long idParametroFiltro = Long.parseLong(request.getParameter("parametroFiltro"));
+		
+		String info = "Mostrando candidatos";
+		
+		if (idParametroOrden > 0){
+			info += "\n Ordenados por " + daoParametro.findOne(idParametroOrden).getNombre();
+		}
+		if (idParametroFiltro > 0){
+			info += "\n Filtrados según si " + daoParametro.findOne(idParametroOrden).getNombre() + " es 6 o superior";
+		}
+
+		model.addAttribute("info", info);
+		model.addAttribute("candidatosEntrevista", daoCandidato.buscarCandidatos(idParametroOrden, idParametroFiltro));
+		model.addAttribute("listaParametros", daoParametro.findParametro());
+		
+		model.addAttribute("convocatoria", daoConvocatoria.findOne(id));
+		List<Curriculum> listaCurriculums = daoCurriculum.findCurriculum();
+		model.addAttribute("listaCurriculums", listaCurriculums);
 		model.addAttribute("candidatosTodos", daoCandidato.findCandidato());
 		return "BuscarCandidatos";
 	}

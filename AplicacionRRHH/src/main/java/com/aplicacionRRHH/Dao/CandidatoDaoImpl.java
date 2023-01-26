@@ -19,6 +19,15 @@ public class CandidatoDaoImpl implements CandidatoDao{
 
 	@Override
 	@SuppressWarnings("unchecked")
+	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro) {
+		
+		
+		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
+		return listCandidato;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
 	public List<Candidato> findCandidato() {
 		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
 		return listCandidato;

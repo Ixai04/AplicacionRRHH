@@ -77,6 +77,25 @@ tr.selected{
 	background-color: #DDFFEE;
 }
 
+input[type=radio]{
+	display: inline-block;
+}
+.div1 checkbox{
+	display: inline;
+}
+
+.div1 span{
+	display: inline;
+}
+
+div.full{
+	width: max-width;
+}
+
+h4{
+	width: 350px;
+}
+
 </style>
 </head>
 <body>
@@ -89,17 +108,34 @@ tr.selected{
 	<div class="divConvocatoria">
 		
 		<div class="div1">
-			<form>
+			<form th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}" method="post">
+				
+				<div class="full">ORDENAR POR</div>
 				<fieldset>
-					<input type="radio" name="parametro" id="0">Todos</input>
-					<input type="radio" name="parametro" th:each="parametro: ${listaParametros}" th:id="${parametro.id}" th:text="${parametro.nombre}"/>
+					<input type="radio" name=parametroOrden value="0" checked>Sin ordenar</input>
+					<div th:each="parametro: ${listaParametros}" >
+						<input type="radio" name="parametroOrden" th:value="${parametro.id}"/>
+						<span th:text="${parametro.nombre}"></span>
+					</div>
 				</fieldset>
+				
+				<div class="full">SOLO LOS QUE TENGAN MAS DE 6 EN</div>
+				<fieldset>
+					<input type="radio" name="parametroFiltro" value="0" checked>Sin filtrar</input>
+					<div th:each="parametro: ${listaParametros}" >
+						<input type="radio" name="parametroFiltro" th:value="${parametro.id}"/>
+						<span th:text="${parametro.nombre}"></span>
+					</div>
+				</fieldset>
+				
+				<input type="submit" value="BUSCAR"/>
 			</form>
 		</div>
 		
 		<div class="div2">
 			<div>
 				<h1>Todos</h1>
+				<h4 style="color: green;" th:if="${info != null}" th:text="${info}">Todos</h4>
 				<table class="tablasCandidatos">
 						<thead>
 							<tr>
