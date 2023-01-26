@@ -147,18 +147,18 @@ h4{
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="curriculum: ${listaCurriculums}" th:attrappend="class=${(candidato != null) && (curriculum.candidato.id == candidato.id)}?@{selected}">
-								<td><span th:text="${curriculum.candidato.id}"></span></td>
-								<td><span th:text="${curriculum.candidato.nombre}"></span></td>
-								<td><span th:text="${curriculum.candidato.apellido1}"></span></td>
-								<td><span th:text="${curriculum.candidato.localidad.nombre + ' (' +curriculum.candidato.localidad.provincia.nombre + ')'} "></span></td>
+							<tr th:each="miCandidato: ${listaCandidatos}" th:attrappend="class=${(candidato != null) && (miCandidato.id == candidato.id)}?@{selected}">
+								<td><span th:text="${miCandidato.id}"></span></td>
+								<td><span th:text="${miCandidato.nombre}"></span></td>
+								<td><span th:text="${miCandidato.apellido1}"></span></td>
+								<td><span th:text="${miCandidato.localidad.nombre + ' (' + miCandidato.localidad.provincia.nombre + ')'} "></span></td>
 								<td>
-									<span th:if="${curriculum.candidato.curriculum != null}">
-										<span th:text="${curriculum.candidato.curriculum.nombre}"></span>
+									<span th:if="${miCandidato.curriculum != null}">
+										<span th:text="${miCandidato.curriculum.nombre}"></span>
 									</span>
 								</td>
-								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${curriculum.candidato.id}">Ver -></a></td>
-								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${curriculum.candidato.id} + @{/entrevista/nueva}">Entrevistar</a></td>
+								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${miCandidato.id}">Ver -></a></td>
+								<td><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${miCandidato.id} + @{/entrevista/nueva}">Entrevistar</a></td>
 							</tr>
 		
 						</tbody>

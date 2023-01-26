@@ -22,7 +22,7 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro) {
 		
 		
-		List<Candidato> listCandidato = em.createQuery("from Candidato").getResultList();
+		List<Candidato> listCandidato = em.createQuery("from Candidato where nombre = 'Ixai'").getResultList();
 		return listCandidato;
 	}
 	
