@@ -29,7 +29,6 @@ public class Convocatoria {
 	@Column(name = "fecha_Inicio")
 	LocalDate fechaInicio;
 	
-	@NotNull
 	@Column(name = "fecha_Fin")
 	LocalDate fechaFin;
 	

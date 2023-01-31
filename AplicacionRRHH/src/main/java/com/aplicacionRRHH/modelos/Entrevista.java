@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -29,8 +30,14 @@ public class Entrevista implements Serializable{
 	@NotNull
 	LocalTime hora;
 	
-	@NotNull
+	@NotEmpty
 	String lugar;
+
+	String observaciones;
+	
+	Boolean realizada;
+	
+	Boolean contratado;
 
 	@ManyToOne
     @JoinColumn(name="id_convocatoria", nullable=false)
@@ -51,7 +58,7 @@ public class Entrevista implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador) {
+	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador, String observaciones) {
 		super();
 		Id = id;
 		this.dia = dia;
@@ -60,6 +67,7 @@ public class Entrevista implements Serializable{
 		this.convocatoria = convocatoria;
 		this.candidato = candidato;
 		this.entrevistador = entrevistador;
+		this.observaciones = observaciones;
 	}
 
 	public Long getId() {
@@ -92,6 +100,15 @@ public class Entrevista implements Serializable{
 
 	public void setLugar(String lugar) {
 		this.lugar = lugar;
+	}
+	
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 	public Convocatoria getConvocatoria() {

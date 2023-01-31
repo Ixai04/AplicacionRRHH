@@ -1,17 +1,31 @@
 package com.aplicacionRRHH.Controllers;
+import java.awt.PageAttributes.MediaType;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.http.HttpHeaders;
 import java.util.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Optional;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +40,11 @@ import com.aplicacionRRHH.modelos.CurriculumParametros;
 import com.aplicacionRRHH.modelos.Parametro;
 import com.aplicacionRRHH.modelos.Usuario;
 
+import jakarta.annotation.Resource;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -46,6 +64,7 @@ public class CandidatoController {
 	
 	@Autowired
 	private CurriculumParametrosDao daoCurriculumParametros;
+	
 	
 	
 	//----------------------------------------------------------------------------------------------
@@ -79,6 +98,7 @@ public class CandidatoController {
 			return "redirect:/inicio";
 		}else {
 			model.put("usuario", usuario);
+			
 		}
 		// -- FIN AUTENTICACIÓN
 
@@ -330,30 +350,26 @@ public class CandidatoController {
         return "redirect:/candidatos";
     }
 	
-	@GetMapping("curriculum/descargar/{id}")
-	public String descargarCurriculum(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
-		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.put("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
-		
+	
+	
+	 @GetMapping(value="/curriculum/descargar/{id}")
+	 public void getLogFile(HttpSession session,HttpServletResponse response) throws Exception {
+	        try {
 
-		Curriculum curriculum = daoCurriculum.findOne(id);
+	            String fileName="a.png";
+	            String filePathToBeServed = "C:\\a\\";
+	            File fileToDownload = new File(filePathToBeServed+fileName);
 
-		//EMPEZAR ACÁ
-		
-				//-----> TO-DO: ENVIAR DESCARGA DEL ARCHIVO CON EL NOMBRE: CURRICULUM.NOMBRE
-		
-		//ACABAR ACÁ
-		
-		
-		return "redirect:/curriculum/"+id;
-	}
+	            InputStream inputStream = new FileInputStream(fileToDownload);
+	            response.setContentType("application/force-download");
+	            response.setHeader("Content-Disposition", "attachment; filename=curriculim.png"); 
+	            IOUtils.copy(inputStream, response.getOutputStream());
+	            response.flushBuffer();
+	            inputStream.close();
+	        } catch (Exception exception){
+	            System.out.println(exception.getMessage());
+	        }
+
+	    }
 	
 }

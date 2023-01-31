@@ -12,6 +12,10 @@ public interface CandidatoDao {
 	public Candidato findOne(Long id);
 
 	public void delete(Long id);
+	
+	//----- MÉTODOS PERSONALIZADOS -----
+	
+	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro);
 }
 
 

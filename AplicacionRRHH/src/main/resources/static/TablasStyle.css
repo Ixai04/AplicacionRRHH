@@ -1,0 +1,30 @@
+.tabla{
+	margin: 10px;
+}
+
+.tabla th,td{
+	padding: 4px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.tabla th{
+	background-color: #111133;
+	color: white;
+}
+
+.tabla tr:nth-child(odd){
+	background-color: #E8E9EB;
+}
+
+.tabla tr:nth-child(even){
+	background-color: #CCCDC6;
+}
+
+.tabla tr:hover{
+	background-color:#AAABB6;
+}
+
+.tabla .tdBoton{
+	padding: 0px;
+}
