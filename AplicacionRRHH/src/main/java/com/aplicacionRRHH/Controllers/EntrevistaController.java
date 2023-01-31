@@ -61,7 +61,7 @@ public class EntrevistaController {
 		return "NuevaEntrevista";
 	}
 
-	@PostMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/crear")
+	@PostMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/{idEntrevista}")
 	public String crearEntrevista(@PathVariable("idConvocatoria") long idConvocatoria, @PathVariable("idCandidato") long idCandidato, Entrevista entrevista, Model model, BindingResult result, HttpServletRequest request){
 		
 		// -- INICIO AUTENTICACIÓN
@@ -89,6 +89,50 @@ public class EntrevistaController {
 			daoEntrevista.save(entrevista);
 		}
 		
+		return "redirect:/convocatoria/"+idConvocatoria;
+	}
+	
+	@GetMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/{idEntrevista}/valorar")
+	public String valorarEntrevista(@PathVariable("idConvocatoria") long idConvocatoria, @PathVariable("idCandidato") long idCandidato, @PathVariable("idEntrevista") long idEntrevista, Model model, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			System.out.println("Usuario logeado: " + usuario.getNombre() + " " + usuario.getApellido1());
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
+		model.addAttribute("entrevista", daoEntrevista.findOne(idEntrevista));
+		model.addAttribute("convocatoria", daoConvocatoria.findOne(idConvocatoria));
+		model.addAttribute("candidato", daoCandidato.findOne(idCandidato));
+		return "ObservacionesEntrevista";
+	}
+
+	@PostMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/{idEntrevista}/valorar")
+	public String valorarEntrevista(@PathVariable("idConvocatoria") long idConvocatoria,@PathVariable("idEntrevista") long idEntrevista, @PathVariable("idCandidato") long idCandidato, Model model, BindingResult result, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
+		Entrevista entrevista = daoEntrevista.findOne(idEntrevista);
+		
+		String observaciones = request.getParameter("observaciones");
+		entrevista.setObservaciones(observaciones);
+		daoEntrevista.save(entrevista);
+		
+		
+	
 		return "redirect:/convocatoria/"+idConvocatoria;
 	}
 	

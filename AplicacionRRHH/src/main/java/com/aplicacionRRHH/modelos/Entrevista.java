@@ -33,6 +33,12 @@ public class Entrevista implements Serializable{
 	@NotEmpty
 	String lugar;
 
+	String observaciones;
+	
+	Boolean realizada;
+	
+	Boolean contratado;
+
 	@ManyToOne
     @JoinColumn(name="id_convocatoria", nullable=false)
     private Convocatoria convocatoria;
@@ -52,7 +58,7 @@ public class Entrevista implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador) {
+	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador, String observaciones) {
 		super();
 		Id = id;
 		this.dia = dia;
@@ -61,6 +67,7 @@ public class Entrevista implements Serializable{
 		this.convocatoria = convocatoria;
 		this.candidato = candidato;
 		this.entrevistador = entrevistador;
+		this.observaciones = observaciones;
 	}
 
 	public Long getId() {
@@ -93,6 +100,15 @@ public class Entrevista implements Serializable{
 
 	public void setLugar(String lugar) {
 		this.lugar = lugar;
+	}
+	
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 	public Convocatoria getConvocatoria() {

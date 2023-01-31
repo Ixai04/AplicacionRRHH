@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.http.HttpHeaders;
 import java.util.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 
@@ -97,6 +98,7 @@ public class CandidatoController {
 			return "redirect:/inicio";
 		}else {
 			model.put("usuario", usuario);
+			
 		}
 		// -- FIN AUTENTICACIÓN
 
@@ -342,34 +344,10 @@ public class CandidatoController {
         return "redirect:/candidatos";
     }
 	
-	@GetMapping("curriculm/descargar/{id}")
-	public String descargarCurriculum(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
-		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.put("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
-		
-
-		//EMPEZAR ACÁ
-		
-		//-----> TO-DO: ENVIAR DESCARGA DEL ARCHIVO CON EL NOMBRE: CURRICULUM.NOMBRE
-			
-		
-		//ACABAR ACÁ
-
-		
-		return "redirect:/curriculum/"+id;
-	}
 	
 	
-	 @RequestMapping(value="/curriculum/descargar/{id}")
-	    public void getLogFile(HttpSession session,HttpServletResponse response) throws Exception {
+	 @GetMapping(value="/curriculum/descargar/{id}")
+	 public void getLogFile(HttpSession session,HttpServletResponse response) throws Exception {
 	        try {
 
 	            String fileName="a.png";

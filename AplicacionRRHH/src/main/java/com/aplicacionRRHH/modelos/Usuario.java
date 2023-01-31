@@ -65,7 +65,7 @@ public class Usuario implements Serializable{
     private Localidad localidad;
 	
 	@ManyToOne
-    @JoinColumn(name="id_Candidato", nullable=false)
+    @JoinColumn(name="id_Candidato", nullable=true)
     private Candidato candidato;
 	
 	public Usuario() {

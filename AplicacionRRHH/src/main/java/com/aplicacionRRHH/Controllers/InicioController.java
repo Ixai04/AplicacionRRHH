@@ -1,5 +1,8 @@
 package com.aplicacionRRHH.Controllers;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +21,9 @@ public class InicioController {
 	private UsuarioDao dao;
 
 	@GetMapping("/inicio")
-	public String inicio() {
-		
+	public String inicio(Model model) {
+		model.addAttribute("date", LocalDate.now());
+		model.addAttribute("time", LocalDate.now() + "-" + LocalTime.now().getHour() + ":"+LocalTime.now().getMinute() + ":"+LocalTime.now().getSecond());
 		return "Inicio";
 	}
 	
@@ -63,13 +67,18 @@ public class InicioController {
 		
 		Usuario usuario = (Usuario)request.getSession().getAttribute("usuario");
 		
+		if (usuario == null) {
+			System.out.println("Pero no estás logueado");
+			return null;
+		}
+		
 		System.out.println("Rol del usuario: " + usuario.getRol().getNombre());
 		
 		if (usuario != null && usuario.getRol().getNombre().equals(nombreRol)) {
 			System.out.println("Autenticado con éxito");
 			return usuario;
 		}else {
-			System.out.println("No se pudo autenticar");
+			System.out.println("Pero el usuario actual es " + usuario.getRol());
 			return null;
 		}
 		
