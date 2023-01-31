@@ -16,7 +16,6 @@
 				<caption>Convocatorias</caption>
 				<thead>
 					<tr>
-						<th></th>
 						<th>ID</th>
 						<th>Puesto de Trabajo</th>
 						<th>Fecha Inicio</th>
@@ -26,14 +25,12 @@
 				</thead>
 				<tbody>
 					<tr th:each="convocatoria: ${convocatorias}">
-						<td><a th:href="@{/convocatoria/} + ${convocatoria.id}">Candidatos</a></td>
 						<td><span th:text="${convocatoria.id}"></span></td>
 						<td><span th:text="${convocatoria.puestoTrabajo}"></span></td>
 						<td><span th:text="${convocatoria.fechaInicio}"></span></td>
 						<td><span th:text="${convocatoria.fechaFin}"></span></td>
 						<td><span th:text="${convocatoria.lugar}"></span></td>
-						<td><a th:href="@{/convocatoria/ver/} + ${convocatoria.id}">Ver</a></td>
-						<td><a th:href="@{/convocatoria/eliminar/} + ${convocatoria.id}">Eliminar</a></td>
+						<td><a th:href="@{/convocatoria/} + ${convocatoria.id}">Ver Candidatos</a></td>
 					</tr>
 
 				</tbody>

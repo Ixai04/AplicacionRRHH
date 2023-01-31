@@ -13,7 +13,7 @@
 		
 		<a th:href="@{/convocatoria/} + ${convocatoria.id}">Volver</a>
 		
-		<form th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id} + @{/entrevista/} + ${entrevista.candidato.id} + @{/valorar}" method="post">
+		<form  class="formulario" th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id} + @{/entrevista/} + ${entrevista.candidato.id} + @{/valorar}" method="post">
 		
 			<!------------------ TABLA 1: CURRICULUM ---------------->
 			

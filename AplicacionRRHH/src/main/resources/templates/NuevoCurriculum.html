@@ -13,7 +13,7 @@
 	
 	<a th:href="@{/candidatos}">Volver</a>
 	
-	<form th:action="@{/nuevoCurriculum/} + ${candidato.id}" th:object="${curriculum}" method="post" enctype="multipart/form-data">
+	<form class="formulario"  th:action="@{/nuevoCurriculum/} + ${candidato.id}" th:object="${curriculum}" method="post" enctype="multipart/form-data">
 	
 		<!------------------ TABLA 1: CURRICULUM ---------------->
 		<input type="hidden" th:field="*{id}"/>
