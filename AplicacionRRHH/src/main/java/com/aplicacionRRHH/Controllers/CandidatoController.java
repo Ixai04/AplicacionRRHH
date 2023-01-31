@@ -200,7 +200,7 @@ public class CandidatoController {
 	
 	@PostMapping("/nuevoCurriculum/{id}")
 	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model, HttpServletRequest request) {
-		
+		 System.out.println("ENTRANDO AL METODO");
 		// -- INICIO AUTENTICACIÓN
 		Usuario usuario = InicioController.autenticar(request, "gestor");
 		
@@ -215,15 +215,16 @@ public class CandidatoController {
 		curriculum.setCandidato(daoCandidato.findOne(id));
 		curriculum.setFecha(LocalDate.now());
 		
-		if(file.getSize() > 37386) {
+		 
+		/*if(file.getSize() > 37386) {
 			
 			model.put("curriculum", curriculum);
 			model.put("candidato", daoCandidato.findOne(id));
 			model.put("parametros", daoParametro.findParametro());
 			model.put("errorArchivo","Demasiado grande, intentelo de nuevo con uno mas pequeño");
 			return "NuevoCurriculum";
-		}
-		
+		}*/
+		 System.out.println("EMPEZANDO A ESCRIBIR EL PDF");
 			 String fileName = curriculum.getNombre() + ".pdf";
 				try {
 					file.transferTo(new File("C:\\Curriculums\\" + fileName));
@@ -231,12 +232,17 @@ public class CandidatoController {
 					e.printStackTrace();
 				}
 		 
-
+				 System.out.println("PDF COMPLETADO"); 
 		model.put("file", file);
 		model.put("filesize", file.getSize());
+ 
+ 
+
 
 		
 		daoCurriculum.save(curriculum);
+		
+		 System.out.println("CURRICULM CREADO");
 		
 		Long lastCurriculumID = daoCurriculum.findLastCurriculumID();
 		Curriculum lastCurriculum = daoCurriculum.findOne(lastCurriculumID);
