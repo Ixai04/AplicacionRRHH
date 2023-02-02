@@ -17,6 +17,17 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!--JASPER REPOTS-->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.20.0</version>
+		</dependency>
+		<!--dependency>
+		   <groupId>com.lowagie</groupId>
+		   <artifactId>itext</artifactId>
+		   <version>1.2.3</version>
+		</dependency-->
 		<!--dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

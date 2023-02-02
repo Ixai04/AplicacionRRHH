@@ -3,19 +3,15 @@
   <head>
 	<meta charset="UTF-8">
 	<title>Inicio</title>
-	<style>
-		.navbar{
-			background-color: red;
-		}
-	</style>
   </head>
   <body>
 	<div class="navbar" th:fragment="header">
 
-		
+		<img src="https://aqiveo.com/wp-content/uploads/2018/10/AGM-Soft_Logo.png"/>
+	    
 	    <ul>
 	   		<li class="logout" th:if="${usuario != null}">
-		    	<a th:href="@{/logout}">Cerrar sesión (<span th:text="${usuario.rol.nombre}"></span>)</a>
+		    	<a th:href="@{/logout}">Cerrar sesión </a>
 	  		</li>
 	      
 	    <!-- EMPLEADO -->
@@ -34,8 +30,13 @@
 	        <a th:href="@{/configParametros}" class="nav-link disabled">Parametros</a>
 	      </li>
 	    </ul>
-	  
+	 
+	 	<div th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}" class="navButtonDiv">
+			<a class="enlaceNavbar a1" th:href="@{/getDescargaBarras}"></a>
+			<a class="enlaceNavbar a2"  th:href="@{/getDescargaPastel}"></a>
+		</div>
 	</div>
+		
 	
   </body>
 </html>

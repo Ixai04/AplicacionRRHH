@@ -3,12 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-<link href="/Style.css" rel="stylesheet"/>
+	<link href="/Style.css" rel="stylesheet"/>
 <style type="text/css">
 
-.container{
-	min-width: 1000px;
+.centrarDiv{
+	width: fit-content;
+	margin: auto;
 }
+
+.centrarDiv button{
+	margin: 0;
+	margin-bottom: 10px;
+}
+
 
 .divConvocatoria{
 	float: left;
@@ -103,9 +110,10 @@ button a{
 <body>
 	<div th:replace="../fragments/navbar :: header"></div>
 
+	<a class="navegacion" style="float: left;" th:href="@{/convocatorias}">Volver</a>
+	
 	<div class="container principal">
 
-	<a style="float: left;" th:href="@{/convocatorias}">Volver</a>
 			
 	<div class="divConvocatoria">
 		<div class="div1">
@@ -135,8 +143,8 @@ button a{
 		
 		<div class="div2">
 		
-			<div>
-				<h1>Candidatos Entrevistados</h1>
+			<h1>Candidatos Entrevistados</h1>
+			<div class="centrarDiv">
 				
 				<button th:if="${convocatoria.fechaFin == null}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}">AGREGAR CANDIDATOS</a></button>
 				
@@ -161,6 +169,7 @@ button a{
 										<span th:text="${entrevista.candidato.curriculum.nombre}"></span>
 									</span>
 								</td>
+								<!-- td th:if="${convocatoria.fechaFin != null}"><img width="15px" height="15px" src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/3430831/checked-icon-md.png"/></td-->
 								<td th:if="${convocatoria.fechaFin != null}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${entrevista.candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/valorar}">Valorar</a></td>
 								<td th:if="${convocatoria.fechaFin == null}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/} + ${entrevista.candidato.id}">Ver ></a></td>
 							</tr>

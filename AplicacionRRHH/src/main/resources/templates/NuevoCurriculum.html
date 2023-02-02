@@ -9,9 +9,10 @@
 	
 	<div th:replace="../fragments/navbar :: header"></div>
 	
+	<a class="navegacion" th:href="@{/candidatos}">Volver</a>
+	
 	<div class="principal container row g-3 align-items-center">
 	
-	<a th:href="@{/candidatos}">Volver</a>
 	
 	<form class="formulario"  th:action="@{/nuevoCurriculum/} + ${candidato.id}" th:object="${curriculum}" method="post" enctype="multipart/form-data">
 	

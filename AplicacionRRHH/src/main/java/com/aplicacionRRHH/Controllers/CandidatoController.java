@@ -1,31 +1,26 @@
 package com.aplicacionRRHH.Controllers;
-import java.awt.PageAttributes.MediaType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.http.HttpHeaders;
-import java.util.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaTypeFactory;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,18 +29,30 @@ import com.aplicacionRRHH.Dao.CurriculumDao;
 import com.aplicacionRRHH.Dao.CurriculumParametrosDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
 import com.aplicacionRRHH.Dao.ParametroDao;
+import com.aplicacionRRHH.Estadisticas.GraficosEstadisticos;
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Curriculum;
 import com.aplicacionRRHH.modelos.CurriculumParametros;
 import com.aplicacionRRHH.modelos.Parametro;
 import com.aplicacionRRHH.modelos.Usuario;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.ServletResponse;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRSaver;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.export.SimplePdfReportConfiguration;
 
 @Controller
 public class CandidatoController {
@@ -168,6 +175,7 @@ public class CandidatoController {
 		candidato.setLocalidad(daoLocalidad.findOne(3L));
 		
 		if(result.hasErrors()) {
+			model.addAttribute("localidades", daoLocalidad.findLocalidad());
 			return "VerCandidato";
 		}
 		
@@ -245,7 +253,7 @@ public class CandidatoController {
 			return "NuevoCurriculum";
 		}*/
 		 System.out.println("EMPEZANDO A ESCRIBIR EL PDF");
-			 String fileName = curriculum.getNombre() + ".pdf";
+			 String fileName = curriculum.getNombre();
 				try {
 					file.transferTo(new File("C:\\Curriculums\\" + fileName));
 				} catch (IOException e) {
@@ -353,16 +361,15 @@ public class CandidatoController {
 	
 	
 	 @GetMapping(value="/curriculum/descargar/{id}")
-	 public void getLogFile(HttpSession session,HttpServletResponse response) throws Exception {
+	 public void getLogFile(@PathVariable(value="id") Long id, HttpSession session,HttpServletResponse response) throws Exception {
 	        try {
-
-	            String fileName="a.png";
-	            String filePathToBeServed = "C:\\a\\";
+	            String fileName=daoCurriculum.findOne(id).getNombre();
+	            String filePathToBeServed = "C:\\Curriculums\\";
 	            File fileToDownload = new File(filePathToBeServed+fileName);
 
 	            InputStream inputStream = new FileInputStream(fileToDownload);
 	            response.setContentType("application/force-download");
-	            response.setHeader("Content-Disposition", "attachment; filename=curriculim.png"); 
+	            response.setHeader("Content-Disposition", "attachment; filename=" + fileName); 
 	            IOUtils.copy(inputStream, response.getOutputStream());
 	            response.flushBuffer();
 	            inputStream.close();
@@ -370,6 +377,84 @@ public class CandidatoController {
 	            System.out.println(exception.getMessage());
 	        }
 
+	    }
+	 
+	 /*
+	 @Bean
+	 public DataSource dataSource() {
+	     return new EmbeddedDatabaseBuilder()
+	       .setType(EmbeddedDatabaseType.HSQL)
+	       .addScript("classpath:dbo-schema.sql")
+	       .build();
+	 }
+	 */
+	 
+	@GetMapping(value="/report")
+	 public void reporte(HttpServletResponse response){
+			
+			try {
+				System.out.println("--1--");
+				InputStream employeeReportStream = getClass().getResourceAsStream("C:\\\\Curriculums\\\\template.jrxml");
+				
+				System.out.println("--2--");
+				File file = new File("C:\\Curriculums\\template.jrxml");
+				
+				System.out.println("--3--");
+				JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+				
+				//JRSaver.saveObject(jasperReport, "template.jasper");
+				
+				System.out.println("--4--");
+				DataSource dataSource = daoCandidato.getDataSource();
+				
+
+				Map<String, Object> parameters = new HashMap<>();
+				parameters.put("titulo", "Candidatooooooooooooooooooooooooooooooo");
+				//parameters.put("nombreVariable", "apellido2");
+				//parameters.put("valorVariable", "aaa");
+				
+				System.out.println("--5--");
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
+				
+				System.out.println("--6--");
+				JRPdfExporter exporter = new JRPdfExporter();
+
+				exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				exporter.setExporterOutput(new SimpleOutputStreamExporterOutput("candidatosReport.pdf"));
+
+				SimplePdfReportConfiguration reportConfig = new SimplePdfReportConfiguration();
+				reportConfig.setSizePageToContent(true);
+				reportConfig.setForceLineBreakPolicy(false);
+
+				SimplePdfExporterConfiguration exportConfig = new SimplePdfExporterConfiguration();
+				exportConfig.setMetadataAuthor("agmsoft");
+				exportConfig.setEncrypted(true);
+				exportConfig.setAllowedPermissionsHint("PRINTING");
+
+				exporter.setConfiguration(reportConfig);
+				exporter.setConfiguration(exportConfig);
+				System.out.println("--7--");
+				exporter.exportReport();
+				System.out.println("--8--");
+				JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Curriculums\\report.pdf");
+				
+				System.out.println("-- PDF CREADO CON ÉXITO--");
+				
+				try {
+		            File fileToDownload = new File("C:\\Curriculums\\report.pdf");
+		            InputStream inputStream = new FileInputStream(fileToDownload);
+		            response.setContentType("application/force-download");
+		            response.setHeader("Content-Disposition", "attachment; filename=report-downloaded.pdf"); 
+		            IOUtils.copy(inputStream, response.getOutputStream());
+		            response.flushBuffer();
+		            inputStream.close();
+		        } catch (Exception exception){
+		            System.out.println(exception.getMessage());
+		        }
+				
+			} catch (JRException e) { e.printStackTrace(); } catch (SQLException e) {
+				e.printStackTrace();
+			}
 	    }
 	
 }

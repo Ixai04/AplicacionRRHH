@@ -76,6 +76,20 @@
 		border: 1px solid black;
 		background-color: white;
 	}
+	
+	h1{
+		position: absolute;
+		top: 100px;
+		left: 400px;
+		text-align: center;
+	}
+	
+	h2{
+		position: absolute;
+		top: 200px;
+		left: 400px;
+		text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -84,9 +98,6 @@
 	<div class="divPrincipal principal">
 		<div class="divLogin" th:if="${usuario} == null">
 		
-			<h1 th:text="${date}"></h1>
-			<h2 th:text="${time}"></h2>
-			<h3 th:text="${date} + @{-} + ${time}"></h3>
 			<form method="post" action="/login">
 	
 				<div>
@@ -107,12 +118,13 @@
 
 		</div>
 		
-		<div th:if="${usuario} != null">
-			<h3 th:text="${'Bienvenido ' + usuario.username + ' con el rol ' + usuario.rol.nombre}"></h3>
-		</div>
+		
 
 	</div>
  
-
+<div th:if="${usuario} != null">
+			<h1>Usuario: <span th:text="${usuario.nombre}"></span></h1>
+			<h2>Rol: <span th:text="${usuario.rol.nombre}"></span></h2>
+		</div>
 </body>
 </html>

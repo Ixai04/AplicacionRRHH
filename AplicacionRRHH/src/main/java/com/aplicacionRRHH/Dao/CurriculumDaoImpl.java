@@ -51,7 +51,7 @@ public class CurriculumDaoImpl implements CurriculumDao{
 			em.merge(curriculum);
 		}
 		else {
-		em.persist(curriculum);
+			em.persist(curriculum);
 		}
 	}
 

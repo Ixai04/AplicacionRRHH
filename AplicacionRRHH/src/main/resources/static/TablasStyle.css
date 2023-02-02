@@ -1,11 +1,14 @@
 .tabla{
 	margin: 10px;
+	border-collapse: collapse;
 }
 
 .tabla th,td{
 	padding: 4px;
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .tabla th{
@@ -21,8 +24,11 @@
 	background-color: #CCCDC6;
 }
 
-.tabla tr:hover{
+.tabla tbody tr:hover{
 	background-color:#AAABB6;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	border-style: inset;
 }
 
 .tabla .tdBoton{

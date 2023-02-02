@@ -10,10 +10,10 @@
 	
 	<div class="principal">
 		<div>
-			<a href="convocatoria/nueva">Crear</a>
+		<h1>Convocatorias</h1>
+			<a href="convocatoria/nueva" class="crear">Crear</a>
 			
 			<table class="tabla">
-				<caption>Convocatorias</caption>
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -31,6 +31,7 @@
 						<td><span th:text="${convocatoria.fechaFin}"></span></td>
 						<td><span th:text="${convocatoria.lugar}"></span></td>
 						<td><a th:href="@{/convocatoria/} + ${convocatoria.id}">Ver Candidatos</a></td>
+						<td><a th:href="@{/convocatoria/eliminar/} + ${convocatoria.id}"><img width="15px" height="15px" src="https://cdn-icons-png.flaticon.com/512/1345/1345874.png"/></a></td>
 					</tr>
 
 				</tbody>

@@ -8,13 +8,13 @@
 <body>
 
 	<div th:replace="../fragments/navbar :: header"></div>
+	<a  class="navegacion" th:href="@{/convocatoria/} + ${convocatoria.id} + @{/} + ${candidato.id}">Volver</a>
 	
 	<div class="principal container row g-3 align-items-center">
 	
 	<form class="formulario" th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id} + @{/entrevista/crear}" th:object="${entrevista}" method="post">
 	
-		<a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/} + ${candidato.id}">Volver</a>
-	
+		
 		<div>
 			<label>Candidato</label>
 			<div>

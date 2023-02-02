@@ -2,6 +2,8 @@ package com.aplicacionRRHH.Dao;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.aplicacionRRHH.modelos.Candidato;
 
 public interface CandidatoDao {
@@ -16,6 +18,8 @@ public interface CandidatoDao {
 	//----- MÉTODOS PERSONALIZADOS -----
 	
 	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro);
+	
+	public DataSource getDataSource();
 }
 
 

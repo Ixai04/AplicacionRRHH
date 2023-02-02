@@ -7,9 +7,20 @@ body{
    	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+p{
+	margin-top: 1px;
+	color: darkred;
+}
+
+
+select{
+	height: 30px;
+	display: block;
+	margin-top: 5px;
+}
+
 .principal{
 	width: fit-content;
-	border: 2px dashed #111133;
 	
 	display: flex;
 	align-self: center;
@@ -54,6 +65,10 @@ a.navegacion:hover{
 	background-color: #EEEEFF;
 }
 
+h1{
+	text-align: center;
+	font-size: 3em;
+}
 a.crear{
 	display: block;
 	font-size: 2em;
@@ -69,6 +84,8 @@ a.crear{
 	
 	margin-right: 20px;
 	color: black;
+	
+	width: 150px;
 }
 
 a.crear:hover{

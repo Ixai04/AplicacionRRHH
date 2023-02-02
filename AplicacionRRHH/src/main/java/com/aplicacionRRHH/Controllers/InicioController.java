@@ -32,9 +32,11 @@ public class InicioController {
 	private UsuarioDao dao;
 
 	@GetMapping("/inicio")
-	public String inicio(Model model) {
-		model.addAttribute("date", LocalDate.now());
-		model.addAttribute("time", LocalDate.now() + "-" + LocalTime.now().getHour() + ":"+LocalTime.now().getMinute() + ":"+LocalTime.now().getSecond());
+	public String inicio(Model model, HttpServletRequest request) {
+		
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		model.addAttribute("usuario", usuario);
+	
 		return "Inicio";
 	}
 	

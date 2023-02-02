@@ -139,8 +139,8 @@ public class BuscadorController {
 	}
 	
 	
-	@GetMapping("/convocatoria/{id}/candidatos")
-	public String buscadorConvocatoria2(@PathVariable("id") long id, Model model, HttpServletRequest request){
+	@GetMapping("/convocatoria/{idConvocatoria}/candidatos")
+	public String buscadorConvocatoria2(@PathVariable("idConvocatoria") long idConvocatoria, Model model, HttpServletRequest request){
 		
 		// -- INICIO AUTENTICACIÓN
 		Usuario usuario = InicioController.autenticar(request, "gestor");
@@ -154,11 +154,10 @@ public class BuscadorController {
 		
 		model.addAttribute("listaParametros", daoParametro.findParametro());
 		
-		model.addAttribute("convocatoria", daoConvocatoria.findOne(id));
+		model.addAttribute("convocatoria", daoConvocatoria.findOne(idConvocatoria));
 		List<Curriculum> listaCurriculums = daoCurriculum.findCurriculum();
 		model.addAttribute("listaCurriculums", listaCurriculums);
-		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());
-		model.addAttribute("candidatosTodos", daoCandidato.findCandidato());
+		model.addAttribute("listaCandidatos", daoCandidato.buscarCandidatos(idConvocatoria, 0L, 0L));
 		return "BuscarCandidatos";
 	}
 	
@@ -225,6 +224,7 @@ public class BuscadorController {
 		if(candidato.getCurriculum() != null) {
 			model.addAttribute("listaCurriculumParametros", daoCurriculumParametros.findFromIDcurriculum(candidato.getCurriculum().getId()));
 		}
+		model.addAttribute("listaCandidatos", daoCandidato.buscarCandidatos(idConvocatoria, 0L, 0L));
 		model.addAttribute("fecha", convocatoria.getFechaInicio());
 		model.addAttribute("listaCurriculums", daoCurriculum.findCurriculum());
 		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());

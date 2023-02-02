@@ -73,7 +73,7 @@ fieldset{
 }
 
 tr.selected{
-	background-color: #DDFFEE;
+	background-color: skyblue;
 }
 
 input[type=radio]{
@@ -102,11 +102,11 @@ h4{
 
 <div class="container principal">
 
-	<a style="float: left;" th:href="@{/convocatorias}">Volver</a>
+	<a style="float: left;" th:href="@{/convocatoria/} + ${convocatoria.id}">Volver</a>
 			
 	<div class="divConvocatoria">
 		
-		<div class="div1">
+		<!-- div class="div1">
 			<form th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos}" method="post">
 				
 				<div class="full">ORDENAR POR</div>
@@ -129,11 +129,11 @@ h4{
 				
 				<input type="submit" value="BUSCAR"/>
 			</form>
-		</div>
+		</div-->
 		
 		<div class="div2">
 			<div>
-				<h1>Todos</h1>
+				<h1>Todos los candidatos sin entrevista</h1>
 				<h4 style="color: green;" th:if="${info != null}" th:text="${info}">Todos</h4>
 				<table class="tablasCandidatos">
 						<thead>

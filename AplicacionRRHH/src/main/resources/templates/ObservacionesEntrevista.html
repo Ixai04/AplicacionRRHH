@@ -13,16 +13,14 @@
 		
 		<a th:href="@{/convocatoria/} + ${convocatoria.id}">Volver</a>
 		
-		<form  class="formulario" th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id} + @{/entrevista/} + ${entrevista.candidato.id} + @{/valorar}" method="post">
+		<form class="formulario" th:object="${entrevista}" th:action="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/valorar}" method="post">
 		
 			<!------------------ TABLA 1: CURRICULUM ---------------->
 			
 			<div>
 				<label>Observaciones</label>
 					<div>
-						<textarea name="observaciones2" rows="10" cols="50">
-						...
-						</textarea>
+						<textarea name="observaciones" th:field="*{observaciones}" rows="10" cols="50"></textarea>
 					</div>
 			</div>
 			

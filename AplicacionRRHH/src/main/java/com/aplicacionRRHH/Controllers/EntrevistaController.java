@@ -105,7 +105,6 @@ public class EntrevistaController {
 			model.addAttribute("usuario", usuario);
 		}
 		// -- FIN AUTENTICACIÓN
-		
 		model.addAttribute("entrevista", daoEntrevista.findOne(idEntrevista));
 		model.addAttribute("convocatoria", daoConvocatoria.findOne(idConvocatoria));
 		model.addAttribute("candidato", daoCandidato.findOne(idCandidato));
@@ -113,7 +112,7 @@ public class EntrevistaController {
 	}
 
 	@PostMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/{idEntrevista}/valorar")
-	public String valorarEntrevista(@PathVariable("idConvocatoria") long idConvocatoria,@PathVariable("idEntrevista") long idEntrevista, @PathVariable("idCandidato") long idCandidato, Model model, BindingResult result, HttpServletRequest request){
+	public String valorarEntrevista(@PathVariable("idConvocatoria") long idConvocatoria,@PathVariable("idEntrevista") long idEntrevista, @PathVariable("idCandidato") long idCandidato, Entrevista entrevista, Model model, BindingResult result, HttpServletRequest request){
 		
 		// -- INICIO AUTENTICACIÓN
 		Usuario usuario = InicioController.autenticar(request, "gestor");
@@ -125,13 +124,10 @@ public class EntrevistaController {
 		}
 		// -- FIN AUTENTICACIÓN
 		
-		Entrevista entrevista = daoEntrevista.findOne(idEntrevista);
-		
-		String observaciones = request.getParameter("observaciones");
+		String observaciones = entrevista.getObservaciones();
+		entrevista = daoEntrevista.findOne(idEntrevista);
 		entrevista.setObservaciones(observaciones);
 		daoEntrevista.save(entrevista);
-		
-		
 	
 		return "redirect:/convocatoria/"+idConvocatoria;
 	}
