@@ -20,6 +20,8 @@ public interface CandidatoDao {
 	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro);
 	
 	public DataSource getDataSource();
+
+	List<Candidato> listacandiodatonombre();
 }
 
 

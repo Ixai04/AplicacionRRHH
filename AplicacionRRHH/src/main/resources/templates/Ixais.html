@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Cachopo</title>
+</head>
+<body>
+<h1>Antxoa</h1>
+<label th:text="${a}"></label>		
+ <div th:each="candidato : ${listacandidatonombre}">
+ 
+ <p th:text="${candidato.nombre + ' ' + candidato.apellido1}" >
+ </p>
+ <a th:href="@{/borrar/}+${candidato.id}">Borrar</a>
+ 
+ 
+ 
+ </div>
+</body>
+</html>
