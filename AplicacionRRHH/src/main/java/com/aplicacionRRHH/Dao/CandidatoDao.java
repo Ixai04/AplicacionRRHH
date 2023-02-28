@@ -22,6 +22,8 @@ public interface CandidatoDao {
 	public List<Candidato> buscarCandidatosPro(Long idConvocatoria);
 	
 	public DataSource getDataSource();
+
+	List<Candidato> listacandiodatonombre();
 }
 
 

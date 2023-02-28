@@ -82,6 +82,13 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public List<Candidato> listacandiodatonombre() {
+		List<Candidato> listCandidato = em.createQuery("from Candidato where nombre='Ixai'").getResultList();
+		return listCandidato;
+	}
+	
+	@Override
 	@Transactional
 	public void save(Candidato candidato) {
 		if(candidato.getId() !=null && candidato.getId() > 0) {
