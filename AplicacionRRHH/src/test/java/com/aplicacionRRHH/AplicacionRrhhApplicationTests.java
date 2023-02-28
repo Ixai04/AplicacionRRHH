@@ -34,7 +34,7 @@ class AplicacionRrhhApplicationTests {
 	
 		 String nombre = "Javier";
 	        Usuario  usuario = new Usuario();
-	        usuario.setNombre("JaviEr");
+	        usuario.setNombre("Javierrr");
 	       String esperado = "Javier";
 	        String real = usuario.getNombre();
 	        assertNotNull(real, "el usuario no puede ser nulo");

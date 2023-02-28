@@ -14,8 +14,7 @@
 	
 		
 		<form class="formulario" >
-			<!------------------ TABLA 1: CURRICULUM ---------------->
-			<input type="hidden" th:field="${curriculum.id}"/>
+
 			
 			<div class="formularioDiv">
 				<label>Candidato</label>
@@ -27,15 +26,15 @@
 			<div class="formularioDiv">
 				<label>Nombre Archivo</label>
 					<div>
-						<input type="text" name="nombre" disabled th:field="${curriculum.nombre}"/>
-						<button><a th:href="@{/curriculum/descargar/} + ${curriculum.id}" ><img style="width: 20px; height: 20px;" src="https://cdn-icons-png.flaticon.com/512/3917/3917330.png"/></a></button>
+						<input type="text" name="nombre" disabled th:field="${candidato.curriculum}"/>
+						<button><a th:href="@{/curriculum/descargar/} + ${candidato.id}" ><img style="width: 20px; height: 20px;" src="https://cdn-icons-png.flaticon.com/512/3917/3917330.png"/></a></button>
 					</div>
 			</div>
 			
 			
 			<!------------------ TABLA 2: CURRICULUM_PARAMETROS ---------------->
 			<div class="formularioDiv">
-				<fieldset th:if="${listaCurriculumParametros != null}">
+				<fieldset>
 				  <legend>Información curriculum</legend>
 				  <table>
 				  	<thead>
@@ -43,9 +42,11 @@
 				  			<th></th>
 				  			<th></th>
 				  		<tr>
-				  		<tr th:each="currPar : ${listaCurriculumParametros}">
-				  			<td><label th:text="${currPar.parametro.nombre}"></label></td>
-							<td><progress th:value="${currPar.valoracion}" max="10"></progress></td>
+				  		<tr th:each="candidatoParam : ${listaCandidatoParametros}">
+				  			<td th:if="${candidatoParam.valoracion == 9}"><label style="color: green" th:text="${candidatoParam.parametro.nombre}"></label></td>
+				  			<td th:if="${candidatoParam.valoracion == 6}"><label style="color: blue" th:text="${candidatoParam.parametro.nombre}"></label></td>
+				  			<td th:if="${candidatoParam.valoracion == 3}"><label style="color: red" th:text="${candidatoParam.parametro.nombre}"></label></td>
+							<td><progress th:value="${candidatoParam.valoracion}" max="10"></progress></td>
 				  		</tr>
 				  	<thead>
 				  </table>

@@ -20,7 +20,7 @@ public class EntrevistaDaoImpl implements EntrevistaDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Entrevista> findEntrevista() {
-		List<Entrevista> listEntrevista = em.createQuery("from Entrevista").getResultList();
+		List<Entrevista> listEntrevista = em.createQuery("from Entrevista ORDER BY id").getResultList();
 		return listEntrevista;
 	}
 

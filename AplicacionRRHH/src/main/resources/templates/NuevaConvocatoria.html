@@ -9,6 +9,8 @@
 
 	<div th:replace="../fragments/navbar :: header"></div>
 	
+	<a class="navegacion" th:href="@{/convocatorias}">Volver</a>
+	
 	<div class="principal container row g-3 align-items-center">
 	
 	<form class="formulario" th:action="@{/convocatoria/nueva}" th:object="${convocatoria}" method="post">

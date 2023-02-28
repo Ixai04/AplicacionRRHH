@@ -132,4 +132,31 @@ public class EntrevistaController {
 		return "redirect:/convocatoria/"+idConvocatoria;
 	}
 	
+	@GetMapping("/convocatoria/{idConvocatoria}/candidatos/{idCandidato}/entrevista/{idEntrevista}/contratar/{yesNo}")
+	public String contratarEntrevista(@PathVariable("yesNo") String yesNo, @PathVariable("idConvocatoria") long idConvocatoria,@PathVariable("idEntrevista") long idEntrevista, @PathVariable("idCandidato") long idCandidato, Entrevista entrevista, Model model, BindingResult result, HttpServletRequest request){
+		
+		// -- INICIO AUTENTICACIÓN
+		Usuario usuario = InicioController.autenticar(request, "gestor");
+		
+		if(usuario == null) {
+			return "redirect:/inicio";
+		}else {
+			model.addAttribute("usuario", usuario);
+		}
+		// -- FIN AUTENTICACIÓN
+		
+		entrevista = daoEntrevista.findOne(idEntrevista);
+		if(yesNo.equals("si")) {
+			entrevista.setContratado(true);
+		}else{
+			entrevista.setContratado(false);
+		}
+		
+		daoEntrevista.save(entrevista);
+	
+		return "redirect:/convocatoria/"+idConvocatoria;
+	}
+	
+	
+	
 }

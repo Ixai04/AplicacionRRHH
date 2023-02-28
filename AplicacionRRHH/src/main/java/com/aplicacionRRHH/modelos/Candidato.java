@@ -1,6 +1,7 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -62,17 +63,25 @@ public class Candidato implements Serializable{
 	@OneToMany(mappedBy="candidato")
     private Set<Usuario> usuarios;
 
-	@OneToOne(mappedBy="candidato", optional=true)
-    private Curriculum curriculum;
-
+	String curriculum;
 	
+	@Column(name = "fecha_alta")
+	LocalDate fechaAlta;
+	
+	
+	@OneToMany(mappedBy="candidato")
+    private Set<CandidatoParametros> candidatoParametros;
+
+
 	public Candidato() {
 		super();
 	}
 
-	public Candidato(@NotNull Long id, @NotEmpty String nombre, @NotEmpty String apellido1, @NotEmpty String apellido2,
+
+	public Candidato(Long id, @NotEmpty String nombre, @NotEmpty String apellido1, @NotEmpty String apellido2,
 			@NotEmpty String correo, @NotEmpty String telefono, @NotEmpty String dni, @NotEmpty String direccion,
-			@NotEmpty String codigo_Postal, Localidad localidad, Set<Usuario> usuarios, Curriculum curriculum) {
+			@NotEmpty String codigo_Postal, Localidad localidad, Set<Usuario> usuarios, @NotNull String curriculum,
+			@NotNull LocalDate fechaAlta, @NotEmpty Set<CandidatoParametros> candidatoParametros) {
 		super();
 		Id = id;
 		this.nombre = nombre;
@@ -86,104 +95,151 @@ public class Candidato implements Serializable{
 		this.localidad = localidad;
 		this.usuarios = usuarios;
 		this.curriculum = curriculum;
+		this.fechaAlta = fechaAlta;
+		this.candidatoParametros = candidatoParametros;
 	}
+
 
 	public Long getId() {
 		return Id;
 	}
 
+
 	public void setId(Long id) {
 		Id = id;
 	}
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 
 	public String getApellido1() {
 		return apellido1;
 	}
 
+
 	public void setApellido1(String apellido1) {
 		this.apellido1 = apellido1;
 	}
+
 
 	public String getApellido2() {
 		return apellido2;
 	}
 
+
 	public void setApellido2(String apellido2) {
 		this.apellido2 = apellido2;
 	}
+
 
 	public String getCorreo() {
 		return correo;
 	}
 
+
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
+
 
 	public String getTelefono() {
 		return telefono;
 	}
 
+
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
 
 	public String getDni() {
 		return dni;
 	}
 
+
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
+
 
 	public String getDireccion() {
 		return direccion;
 	}
 
+
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+
 
 	public String getCodigo_Postal() {
 		return codigo_Postal;
 	}
 
+
 	public void setCodigo_Postal(String codigo_Postal) {
 		this.codigo_Postal = codigo_Postal;
 	}
+
 
 	public Localidad getLocalidad() {
 		return localidad;
 	}
 
+
 	public void setLocalidad(Localidad localidad) {
 		this.localidad = localidad;
 	}
+
 
 	public Set<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
+
 	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
 
-	public Curriculum getCurriculum() {
+
+	public String getCurriculum() {
 		return curriculum;
 	}
 
-	public void setCurriculum(Curriculum curriculum) {
+
+	public void setCurriculum(String curriculum) {
 		this.curriculum = curriculum;
 	}
 
+
+	public LocalDate getFechaAlta() {
+		return fechaAlta;
+	}
+
+
+	public void setFechaAlta(LocalDate fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+
+	public Set<CandidatoParametros> getCandidatoParametros() {
+		return candidatoParametros;
+	}
+
+
+	public void setCandidatoParametros(Set<CandidatoParametros> candidatoParametros) {
+		this.candidatoParametros = candidatoParametros;
+	}
+	
+	
 	
 	
 

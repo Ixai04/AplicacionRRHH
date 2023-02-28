@@ -6,6 +6,7 @@
 	<link href="/Style.css" rel="stylesheet"/>
 <style type="text/css">
 
+
 .centrarDiv{
 	width: fit-content;
 	margin: auto;
@@ -151,26 +152,30 @@ button a{
 				<table class="tablasCandidatos">
 						<thead>
 							<tr>
+								<th></th>
+								<th></th>
 								<th>ID</th>
 								<th>Nombre</th>
 								<th>Apellido 1</th>
+								<th>Apellido 2</th>
 								<th>Localidad</th>
-								<th>Curriculum</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="entrevista: ${convocatoria.entrevistas}" th:attrappend="class=${(candidato != null) && (entrevista.candidato.id == candidato.id)}?@{selected}">
+							<tr th:each="entrevista: ${convocatoria.entrevistas}" th:attrappend="class=${(entrevista.contratado != null)}?@{contratado}" >
+								<td class="tdBoton" style="padding: 0px;">
+									<button th:if="${(convocatoria.fechaFin != null) && (entrevista.observaciones != null) && (entrevista.contratado == null)}"><a style="color: green; border-color: green;" th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${entrevista.candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/contratar/si}">✓</a></button>
+								</td>
+								<td class="tdBoton" style="padding: 0px; color: red;">
+									<button th:if="${(convocatoria.fechaFin != null) && (entrevista.observaciones != null) && (entrevista.contratado == null)}"><a style="color: red; border-color: red;" th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${entrevista.candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/contratar/no}">✗</a></button>
+								</td>
 								<td><span th:text="${entrevista.candidato.id}"></span></td>
 								<td><span th:text="${entrevista.candidato.nombre}"></span></td>
 								<td><span th:text="${entrevista.candidato.apellido1}"></span></td>
+								<td><span th:text="${entrevista.candidato.apellido2}"></span></td>
 								<td><span th:text="${entrevista.candidato.localidad.nombre + ' (' +entrevista.candidato.localidad.provincia.nombre + ')'} "></span></td>
-								<td>
-									<span th:if="${entrevista.candidato.curriculum != null}">
-										<span th:text="${entrevista.candidato.curriculum.nombre}"></span>
-									</span>
-								</td>
 								<!-- td th:if="${convocatoria.fechaFin != null}"><img width="15px" height="15px" src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/3430831/checked-icon-md.png"/></td-->
-								<td th:if="${convocatoria.fechaFin != null}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${entrevista.candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/valorar}">Valorar</a></td>
+								<td th:if="${(convocatoria.fechaFin != null) && (entrevista.observaciones == null)}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/candidatos/} + ${entrevista.candidato.id} + @{/entrevista/} + ${entrevista.id} + @{/valorar}">Valorar</a></td>
 								<td th:if="${convocatoria.fechaFin == null}"><a th:href="@{/convocatoria/} + ${convocatoria.id} + @{/} + ${entrevista.candidato.id}">Ver ></a></td>
 							</tr>
 						</tbody>

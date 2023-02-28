@@ -58,7 +58,7 @@ public class Entrevista implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador, String observaciones) {
+	public Entrevista(@NotNull Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull String lugar, Convocatoria convocatoria, Candidato candidato, Usuario entrevistador, String observaciones, Boolean realizada, Boolean contratado) {
 		super();
 		Id = id;
 		this.dia = dia;
@@ -68,6 +68,8 @@ public class Entrevista implements Serializable{
 		this.candidato = candidato;
 		this.entrevistador = entrevistador;
 		this.observaciones = observaciones;
+		this.realizada = realizada;
+		this.contratado = contratado;
 	}
 
 	public Long getId() {
@@ -133,6 +135,22 @@ public class Entrevista implements Serializable{
 
 	public void setEntrevistador(Usuario entrevistador) {
 		this.entrevistador = entrevistador;
+	}
+	
+	public Boolean getRealizada() {
+		return realizada;
+	}
+
+	public void setRealizada(Boolean realizada) {
+		this.realizada = realizada;
+	}
+	
+	public Boolean getContratado() {
+		return contratado;
+	}
+
+	public void setContratado(Boolean contratado) {
+		this.contratado = contratado;
 	}
 	
 	

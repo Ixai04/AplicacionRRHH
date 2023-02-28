@@ -25,14 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aplicacionRRHH.Dao.CandidatoDao;
-import com.aplicacionRRHH.Dao.CurriculumDao;
-import com.aplicacionRRHH.Dao.CurriculumParametrosDao;
+import com.aplicacionRRHH.Dao.CandidatoParametrosDao;
 import com.aplicacionRRHH.Dao.LocalidadDao;
 import com.aplicacionRRHH.Dao.ParametroDao;
 import com.aplicacionRRHH.Estadisticas.GraficosEstadisticos;
 import com.aplicacionRRHH.modelos.Candidato;
-import com.aplicacionRRHH.modelos.Curriculum;
-import com.aplicacionRRHH.modelos.CurriculumParametros;
+import com.aplicacionRRHH.modelos.CandidatoParametros;
 import com.aplicacionRRHH.modelos.Parametro;
 import com.aplicacionRRHH.modelos.Usuario;
 
@@ -61,16 +59,13 @@ public class CandidatoController {
 	private CandidatoDao daoCandidato;
 	
 	@Autowired
-	private CurriculumDao daoCurriculum;
-	
-	@Autowired
 	private LocalidadDao daoLocalidad;
 	
 	@Autowired
 	private ParametroDao daoParametro;
 	
 	@Autowired
-	private CurriculumParametrosDao daoCurriculumParametros;
+	private CandidatoParametrosDao daoCandidatoParametros;
 	
 	
 	
@@ -219,15 +214,13 @@ public class CandidatoController {
 		}
 		// -- FIN AUTENTICACIÓN
 
-		Curriculum curriculum = new Curriculum();
-		model.put("curriculum", curriculum);
 		model.put("candidato", daoCandidato.findOne(id));
 		model.put("parametros", daoParametro.findParametro());
 		return "NuevoCurriculum";
 	}
 	
-	@PostMapping("/nuevoCurriculum/{id}")
-	public String crearCurriculum(@PathVariable(value="id") Long id, Curriculum curriculum, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model, HttpServletRequest request) {
+	@PostMapping("/nuevoCurriculum/{idCandidato}")
+	public String crearCurriculum(@PathVariable(value="idCandidato") Long idCandidato, @RequestParam("file") MultipartFile file, @RequestParam("valoraciones") Integer[] valoraciones, Map<String, Object> model, HttpServletRequest request) {
 		 System.out.println("ENTRANDO AL METODO");
 		// -- INICIO AUTENTICACIÓN
 		Usuario usuario = InicioController.autenticar(request, "gestor");
@@ -239,57 +232,50 @@ public class CandidatoController {
 		}
 		// -- FIN AUTENTICACIÓN
 
-		curriculum.setNombre(daoCandidato.findOne(id).getNombre() + "-cv.pdf");
-		curriculum.setCandidato(daoCandidato.findOne(id));
-		curriculum.setFecha(LocalDate.now());
+		Candidato candidato = daoCandidato.findOne(idCandidato);
+		candidato.setCurriculum(candidato.getNombre() + "-cv.pdf");
+		daoCandidato.save(candidato);
 		
 		 
-		/*if(file.getSize() > 37386) {
-			
-			model.put("curriculum", curriculum);
-			model.put("candidato", daoCandidato.findOne(id));
-			model.put("parametros", daoParametro.findParametro());
-			model.put("errorArchivo","Demasiado grande, intentelo de nuevo con uno mas pequeño");
-			return "NuevoCurriculum";
-		}*/
+		//if(file.getSize() > 37386) {
+		//	
+		//	model.put("curriculum", curriculum);
+		//	model.put("candidato", daoCandidato.findOne(id));
+		//	model.put("parametros", daoParametro.findParametro());
+		//	model.put("errorArchivo","Demasiado grande, intentelo de nuevo con uno mas pequeño");
+		//	return "NuevoCurriculum";
+		//}
+		 
 		 System.out.println("EMPEZANDO A ESCRIBIR EL PDF");
-			 String fileName = curriculum.getNombre();
+			 String fileName = candidato.getCurriculum();
 				try {
 					file.transferTo(new File("C:\\Curriculums\\" + fileName));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 		 
-				 System.out.println("PDF COMPLETADO"); 
-		model.put("file", file);
-		model.put("filesize", file.getSize());
- 
- 
-
-
+		System.out.println("PDF COMPLETADO"); 
+		//model.put("file", file);
+		//model.put("filesize", file.getSize());
 		
-		daoCurriculum.save(curriculum);
-		
-		 System.out.println("CURRICULM CREADO");
-		
-		Long lastCurriculumID = daoCurriculum.findLastCurriculumID();
-		Curriculum lastCurriculum = daoCurriculum.findOne(lastCurriculumID);
 		
 		for (Parametro parametro : daoParametro.findParametro()) {
-			CurriculumParametros curriculumParametro = new CurriculumParametros();
-
-			curriculumParametro.setParametro(daoParametro.findOne(parametro.getId()));
-			curriculumParametro.setCurriculum(lastCurriculum);
-			curriculumParametro.setValoracion(5);
 			
-			daoCurriculumParametros.save(curriculumParametro);
+			CandidatoParametros candidatoParametro = new CandidatoParametros();
+
+			candidatoParametro.setParametro(daoParametro.findOne(parametro.getId()));
+			candidatoParametro.setCandidato(candidato);
+			candidatoParametro.setValoracion(5);
+			
+			daoCandidatoParametros.save(candidatoParametro);
 		}
 		
-		return "redirect:/curriculum/" + curriculum.getId();
+		return "redirect:/curriculum/" + candidato.getId();
 	}
 	
-	@GetMapping("curriculum/{id}")
-	public String verCurriculum(@PathVariable("id") long id, Map<String, Object> model, HttpServletRequest request){
+	
+	@GetMapping("curriculum/{idCandidato}")
+	public String verCurriculum(@PathVariable("idCandidato") long idCandidato, Map<String, Object> model, HttpServletRequest request){
 		
 		// -- INICIO AUTENTICACIÓN
 		Usuario usuario = InicioController.autenticar(request, "gestor");
@@ -301,36 +287,9 @@ public class CandidatoController {
 		}
 		// -- FIN AUTENTICACIÓN
 
-		Curriculum curriculum = daoCurriculum.findOne(id);
-		
-		model.put("curriculum", curriculum);
-		model.put("candidato", curriculum.getCandidato());
-		model.put("listaCurriculumParametros", daoCurriculumParametros.findFromIDcurriculum(id));
+		model.put("candidato", daoCandidato.findOne(idCandidato));
+		model.put("listaCandidatoParametros", daoCandidatoParametros.findFromIDCandidato(idCandidato));
 		return "VerCurriculum";
-	}
-	
-	@PostMapping("curriculum/{id}/actualizar")
-	public String actualizarCurriculum(@Valid Candidato candidato, BindingResult result, Model model, HttpServletRequest request) {
-		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
-		
-
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
-		
-		if(result.hasErrors()) {
-			return "VerCandidato";
-		}
-		
-		daoCandidato.save(candidato);
-		return "redirect:/candidatos";
 	}
 	
 	@GetMapping(value="/eliminarCurriculum/{id}")
@@ -349,11 +308,14 @@ public class CandidatoController {
 
         if(id > 0) {
         	
-        	for (CurriculumParametros currParr : daoCandidato.findOne(id).getCurriculum().getCurriculumParametros()) {
-				daoCurriculumParametros.delete(currParr.getId());
+        	Candidato candidato = daoCandidato.findOne(id);
+        	for (CandidatoParametros candidatosParam : candidato.getCandidatoParametros()) {
+				daoCandidatoParametros.delete(candidatosParam.getId());
 			}
 			
-            daoCurriculum.delete(daoCandidato.findOne(id).getCurriculum().getId());
+        	candidato.setCurriculum(null);
+        	candidato.setCandidatoParametros(null);
+            daoCandidato.save(candidato);
         }
         return "redirect:/candidatos";
     }
@@ -363,7 +325,7 @@ public class CandidatoController {
 	 @GetMapping(value="/curriculum/descargar/{id}")
 	 public void getLogFile(@PathVariable(value="id") Long id, HttpSession session,HttpServletResponse response) throws Exception {
 	        try {
-	            String fileName=daoCurriculum.findOne(id).getNombre();
+	            String fileName=daoCandidato.findOne(id).getCurriculum();
 	            String filePathToBeServed = "C:\\Curriculums\\";
 	            File fileToDownload = new File(filePathToBeServed+fileName);
 
@@ -379,15 +341,6 @@ public class CandidatoController {
 
 	    }
 	 
-	 /*
-	 @Bean
-	 public DataSource dataSource() {
-	     return new EmbeddedDatabaseBuilder()
-	       .setType(EmbeddedDatabaseType.HSQL)
-	       .addScript("classpath:dbo-schema.sql")
-	       .build();
-	 }
-	 */
 	 
 	@GetMapping(value="/report")
 	 public void reporte(HttpServletResponse response){
@@ -409,7 +362,8 @@ public class CandidatoController {
 				
 
 				Map<String, Object> parameters = new HashMap<>();
-				parameters.put("titulo", "Candidatooooooooooooooooooooooooooooooo");
+				parameters.put("titulo", "Candidatos");
+				parameters.put("dato", "Campo");
 				//parameters.put("nombreVariable", "apellido2");
 				//parameters.put("valorVariable", "aaa");
 				

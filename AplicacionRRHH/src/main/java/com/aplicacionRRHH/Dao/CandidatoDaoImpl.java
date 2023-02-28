@@ -38,24 +38,38 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	@SuppressWarnings("unchecked")
 	public List<Candidato> buscarCandidatos(Long idConvocatoria, Long idParametroOrden, Long idParametroFiltro) {
 		
+		System.out.println("IDConvocatoria (" + idConvocatoria + ") IDParametroOrden (" + idParametroOrden + ") IDParametroFiltro (" + idParametroFiltro + ")");
 		//-----> (1) INICIO: OBTENER LISTA CANDIDATOS
 		List<Candidato> listaCandidatos = em.createQuery("from Candidato").getResultList();
 		System.out.println("--1-- Lista Candidatos al inicio: " + listaCandidatos.size());
 		
+		//-----> (2) ENTREVISTAS: OBTENER LISTA ENTREVISTAS DENTRO DE LA CONVOCATORIA
 		List<Entrevista> listaEntrevistas = em.createQuery("from Entrevista where convocatoria = " + idConvocatoria).getResultList();
 		System.out.println("--2-- Lista Entrevistas: " + listaEntrevistas.size());
         
-
+		//-----> (3) ENTREVISTADOS: OBTENER LOS CANDIDATOS DE LAS ENTREVISTAS
         List<Candidato> listaUsuariosEntrevista = new ArrayList<Candidato>();
         
         for(Entrevista entrevista : listaEntrevistas) {
         	listaUsuariosEntrevista.add(entrevista.getCandidato());
         }
 		System.out.println("--3-- Lista UsuariosEntrevista: " + listaUsuariosEntrevista.size());
-
+		
+		//-----> (4) FILTRO: ELIMINAR LOS CANDIDATOS CON ENTREVISTA DE LA LISTA INICIAL
         listaCandidatos.removeAll(listaUsuariosEntrevista);
 		System.out.println("--4-- Lista Candidatos al final: " + listaCandidatos.size());
 		
+		
+		return listaCandidatos;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Candidato> buscarCandidatosPro(Long idConvocatoria) {
+		
+		
+		List<Candidato> listaCandidatos = em.createQuery("from Candidato").getResultList();
+		System.out.println("--1-- Lista Candidatos al inicio: " + listaCandidatos.size());
 		
 		return listaCandidatos;
 	}
@@ -86,9 +100,6 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		if(this.findOne(id).getCurriculum() != null) {
-			//--
-		}
 		em.remove(findOne(id));
 	}
 

@@ -1,7 +1,6 @@
 package com.aplicacionRRHH.modelos;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,11 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class CurriculumParametros implements Serializable{
+public class CandidatoParametros implements Serializable{
 
 	private static final long serialVersionUID = -2945673221267191557L;
 
@@ -27,21 +25,21 @@ public class CurriculumParametros implements Serializable{
 	Integer valoracion;
 	
 	@ManyToOne
-    @JoinColumn(name="id_Curriculum", nullable=false)
-    private Curriculum curriculum;
+    @JoinColumn(name="id_Candidato", nullable=false)
+    private Candidato candidato;
 	
 	@ManyToOne
     @JoinColumn(name="id_Parametro", nullable=false)
     private Parametro parametro;
 	
-	public CurriculumParametros() {
+	public CandidatoParametros() {
 		super();
 	}
 
-	public CurriculumParametros(Long id, Curriculum curriculum, Parametro parametro, Integer valoracion) {
+	public CandidatoParametros(Long id, Candidato candidato, Parametro parametro, Integer valoracion) {
 		super();
 		Id = id;
-		this.curriculum = curriculum;
+		this.candidato = candidato;
 		this.parametro = parametro;
 		this.valoracion = valoracion;
 	}
@@ -57,13 +55,13 @@ public class CurriculumParametros implements Serializable{
 	}
 
 
-	public Curriculum getCurriculum() {
-		return curriculum;
+	public Candidato getCandidato() {
+		return candidato;
 	}
 
 
-	public void setCurriculum(Curriculum curriculum) {
-		this.curriculum = curriculum;
+	public void setCandidato(Candidato candidato) {
+		this.candidato = candidato;
 	}
 	
 	

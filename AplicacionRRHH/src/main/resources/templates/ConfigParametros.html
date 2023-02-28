@@ -4,6 +4,8 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link href="/Style.css" rel="stylesheet"/>
+<style>
+</style>
 </head>
 <body>
 	<div th:replace="../fragments/navbar :: header"></div>
@@ -14,7 +16,7 @@
 		<!-------------------- NOMBRE -------------------->
 		
 		
-		<div th:each="parametro: ${parametros}">
+		<div th:each="parametro: ${parametros}" style="display: block;">
 			<label th:text="${parametro.nombre}"></label>
 			<button><a th:href="@{/eliminarParametro/} + ${parametro.id}">Eliminar</a></button>
 		</div>

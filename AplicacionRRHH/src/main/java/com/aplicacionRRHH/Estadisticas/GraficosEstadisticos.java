@@ -31,7 +31,7 @@ public class GraficosEstadisticos {
 	}*/
 	private static JFreeChart graficoDePastel() {
 		DefaultPieDataset dataset= new DefaultPieDataset();
-	       dataset.setValue("javaScript", 20);
+	       dataset.setValue("javaScript", 200);
 	       dataset.setValue("java", 16);
 	       dataset.setValue("TypeScript", 13);
 	       dataset.setValue("python", 18);
@@ -50,7 +50,7 @@ public class GraficosEstadisticos {
 		final String Lenguaje2 = "Python";
 		final String Lenguaje3 = "Angular";
 
-		data.addValue(35, Lenguaje1, "Lenguajes");
+		data.addValue(350, Lenguaje1, "Lenguajes");
 		data.addValue(28, Lenguaje2, "Lenguajes");
 		data.addValue(23, Lenguaje3, "Lenguajes");
 

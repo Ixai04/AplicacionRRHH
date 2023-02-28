@@ -1,4 +1,4 @@
-package com.aplicacionRRHH.Controllers;
+/*package com.aplicacionRRHH.Controllers;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -56,15 +56,6 @@ public class BuscadorController {
 	@GetMapping("/convocatoria/{id}")
 	public String buscadorConvocatoria(@PathVariable("id") long id, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 				
 		model.addAttribute("convocatoria", daoConvocatoria.findOne(id));
 		List<Curriculum> listaCurriculums = daoCurriculum.findCurriculum();
@@ -72,21 +63,13 @@ public class BuscadorController {
 		model.addAttribute("listaCurriculums", listaCurriculums);
 		model.addAttribute("candidatosEntrevista", daoCandidato.findCandidato());
 		model.addAttribute("candidatosTodos", daoCandidato.findCandidato());
+		
 		return "ConvocatoriaCandidatos";
 	}
 	
 	@GetMapping("/convocatoria/{idConvocatoria}/cambiarFechaFin/{abrirCerrar}")
 	public String cerrarConvocatoria(@PathVariable("idConvocatoria") long idConvocatoria, @PathVariable("abrirCerrar") String abrirCerrar, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 		
 		Convocatoria convocatoria = daoConvocatoria.findOne(idConvocatoria);	
 		if (abrirCerrar.equals("abrir")) {
@@ -112,15 +95,6 @@ public class BuscadorController {
 	public String buscadorConvocatoriaVerCandidato(@PathVariable("idConvocatoria") long idConvocatoria,
 			@PathVariable("idCandidato") long idCandidato, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 
 
 		Candidato candidato = daoCandidato.findOne(idCandidato);
@@ -142,15 +116,6 @@ public class BuscadorController {
 	@GetMapping("/convocatoria/{idConvocatoria}/candidatos")
 	public String buscadorConvocatoria2(@PathVariable("idConvocatoria") long idConvocatoria, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 		
 		model.addAttribute("listaParametros", daoParametro.findParametro());
 		
@@ -164,15 +129,6 @@ public class BuscadorController {
 	@PostMapping("/convocatoria/{idConvocatoria}/candidatos")
 	public String buscadorConvocatoriaPost(@PathVariable("idConvocatoria") long idConvocatoria, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 
 		System.out.println(request.getParameter("parametroOrden"));
 		System.out.println(request.getParameter("parametroFiltro"));
@@ -183,9 +139,11 @@ public class BuscadorController {
 		String info = "Mostrando candidatos";
 		
 		if (idParametroOrden > 0){
+			System.out.println("----- Parametro orden: " + daoParametro.findOne(idParametroOrden).getNombre());
 			info += "\n Ordenados por " + daoParametro.findOne(idParametroOrden).getNombre();
 		}
 		if (idParametroFiltro > 0){
+			System.out.println("----- Parametro filtro: " + daoParametro.findOne(idParametroFiltro).getNombre());
 			info += "\n Filtrados según si " + daoParametro.findOne(idParametroFiltro).getNombre() + " es 6 o superior";
 		}
 
@@ -204,15 +162,6 @@ public class BuscadorController {
 	public String buscadorConvocatoriaVerCandidato2(@PathVariable("idConvocatoria") long idConvocatoria,
 			@PathVariable("idCandidato") long idCandidato, Model model, HttpServletRequest request){
 		
-		// -- INICIO AUTENTICACIÓN
-		Usuario usuario = InicioController.autenticar(request, "gestor");
-		
-		if(usuario == null) {
-			return "redirect:/inicio";
-		}else {
-			model.addAttribute("usuario", usuario);
-		}
-		// -- FIN AUTENTICACIÓN
 				
 		model.addAttribute("listaParametros", daoParametro.findParametro());
 		
@@ -233,4 +182,4 @@ public class BuscadorController {
 	}
 	
 	
-}
+}*/

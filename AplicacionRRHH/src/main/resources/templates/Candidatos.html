@@ -16,7 +16,7 @@
 			<h1>Candidatos</h1>
 			
 			<a href="candidatos/nuevo" class="crear">Nuevo</a>
-			<a href="/report" class="crear">Descargar Reporte</a>
+			<a style="width: 300px; margin-top: 10px;" href="/report" class="crear">Descargar Reporte</a>
 	
 			<table class="tabla">
 
@@ -37,9 +37,9 @@
 						<td><span th:text="${candidato.nombre}"></span></td>
 						<td><span th:text="${candidato.apellido1}"></span></td>
 						<td><span th:text="${candidato.localidad.nombre + ' (' +candidato.localidad.provincia.nombre + ')'} "></span></td>
-						<td th:if="${candidato.curriculum != null}" th:text="${candidato.curriculum.nombre}"></td>
+						<td th:if="${candidato.curriculum != null}" th:text="${candidato.curriculum}"></td>
 						<td class="tdBoton" th:if="${candidato.curriculum != null}">
-							<button><a th:href="@{/curriculum/} + ${candidato.curriculum.id}"><img width="15px" height="15px" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/view-512.png"/></a></button>
+							<button><a th:href="@{/curriculum/} + ${candidato.id}"><img width="15px" height="15px" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/view-512.png"/></a></button>
 						</td>
 						<td class="tdBoton" th:if="${candidato.curriculum != null}">
 							<span>
