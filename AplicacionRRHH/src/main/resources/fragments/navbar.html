@@ -16,7 +16,8 @@
 	      
 	    <!-- EMPLEADO -->
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'empleado')}" class="nav-item active">
-	        <a th:href="@{/verEmpleado}" class="nav-link">Ver Ficha<span class="sr-only">(current)</span></a>
+	        <a th:href="@{/verEmpleado}" class="nav-link">Mis Datos</a>
+	        <a th:href="@{/fichar}" class="nav-link">Fichar</a>
 	      </li>
 	    <!-- GESTOR -->
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}" class="nav-item">
@@ -27,7 +28,7 @@
 	      </li>
 	    <!-- ADMINISTRADOR -->
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'admin')}" class="nav-item">
-	        <a th:href="@{/configParametros}" class="nav-link disabled">Parametros</a>
+	        <a th:href="@{/configParametros}" class="nav-link disabled" th:text="${usuario.rol.nombre}">Parametross</a>
 	      </li>
 	    </ul>
 	 

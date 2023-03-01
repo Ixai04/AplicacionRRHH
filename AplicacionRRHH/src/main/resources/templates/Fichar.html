@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	 <meta charset="utf-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <title>Fichar</title>
+	<link href="/Style.css" rel="stylesheet"/>
+</head>
+<body>
+	<div th:replace="../fragments/navbar :: header"></div>
+
+	<div class="principal">
+		<div> 
+			
+			<h1>Candidatos</h1>
+			
+			<a href="fichar/fichar" class="crear">Fichar</a>
+	
+			<table class="tabla">
+
+				<thead>
+					<tr>
+						<th>ENTRADA/SALIDA</th>
+						<th>Hora</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="fichaje: ${listaFichajes}"> 
+						<td><span th:text="${fichaje}"></span></td>
+					</tr>
+
+				</tbody>
+
+
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

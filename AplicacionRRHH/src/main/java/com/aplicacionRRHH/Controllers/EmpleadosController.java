@@ -54,8 +54,6 @@ public class EmpleadosController {
 		}
 		// -- FIN AUTENTICACIÓN
 		
-		
-		model.addAttribute("usuario", daoUsuario.findUsuario().get(0));
 		return "VerEmpleado";
 	}
 	
