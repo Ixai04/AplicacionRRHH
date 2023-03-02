@@ -14,9 +14,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Fichajes implements Serializable{
+public class Fichaje implements Serializable{
 
-	private static final long serialVersionUID = 847355122630333108L;
+
+	private static final long serialVersionUID = -2739489587240481946L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,19 +31,19 @@ public class Fichajes implements Serializable{
 	LocalTime hora;
 
 	@NotNull
+	@Column(name = "es_entrada")
 	Boolean esEntrada;
 
 	@ManyToOne
-    @JoinColumn(name="id_Usuario", nullable=false)
+    @JoinColumn(name="id_usuario", nullable=false)
     private Usuario usuario;
 
-	public Fichajes() {
+	public Fichaje() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fichajes(Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull Boolean esEntrada,
-			Usuario usuario) {
+	public Fichaje(Long id, @NotNull LocalDate dia, @NotNull LocalTime hora, @NotNull Boolean esEntrada, Usuario usuario) {
 		super();
 		Id = id;
 		this.dia = dia;

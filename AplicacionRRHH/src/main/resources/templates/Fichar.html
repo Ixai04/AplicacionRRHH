@@ -15,7 +15,8 @@
 			
 			<h1>Candidatos</h1>
 			
-			<a href="fichar/fichar" class="crear">Fichar</a>
+			<a href="fichar/entrada" class="crear">Entrar</a>
+			<a href="fichar/salida" class="crear">Salir</a>
 	
 			<table class="tabla">
 
@@ -27,7 +28,9 @@
 				</thead>
 				<tbody>
 					<tr th:each="fichaje: ${listaFichajes}"> 
-						<td><span th:text="${fichaje}"></span></td>
+						<td th:if="${fichaje.esEntrada == true}" style="background-color: green;">ENTRADA</td>
+						<td th:if="${fichaje.esEntrada == false}" style="background-color: red;">SALIDA</td>
+						<td><span th:text="${fichaje.hora}"></span></td>
 					</tr>
 
 				</tbody>
