@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -60,6 +63,10 @@ public class Candidato implements Serializable{
     @JoinColumn(name="id_Localidad", nullable=false)
     private Localidad localidad;
 	
+	
+	@Transient
+	private Long idLocalidadPrueba;
+	
 	@OneToMany(mappedBy="candidato")
     private Set<Usuario> usuarios;
 
@@ -80,7 +87,7 @@ public class Candidato implements Serializable{
 
 	public Candidato(Long id, @NotEmpty String nombre, @NotEmpty String apellido1, @NotEmpty String apellido2,
 			@NotEmpty String correo, @NotEmpty String telefono, @NotEmpty String dni, @NotEmpty String direccion,
-			@NotEmpty String codigo_Postal, Localidad localidad, Set<Usuario> usuarios, @NotNull String curriculum,
+			@NotEmpty String codigo_Postal, Localidad localidad,Long idLocalidadPrueba, Set<Usuario> usuarios, @NotNull String curriculum,
 			@NotNull LocalDate fechaAlta, @NotEmpty Set<CandidatoParametros> candidatoParametros) {
 		super();
 		Id = id;
@@ -93,6 +100,7 @@ public class Candidato implements Serializable{
 		this.direccion = direccion;
 		this.codigo_Postal = codigo_Postal;
 		this.localidad = localidad;
+		this.idLocalidadPrueba = idLocalidadPrueba;
 		this.usuarios = usuarios;
 		this.curriculum = curriculum;
 		this.fechaAlta = fechaAlta;
@@ -198,6 +206,17 @@ public class Candidato implements Serializable{
 	public void setLocalidad(Localidad localidad) {
 		this.localidad = localidad;
 	}
+	
+	@Transient
+	public Long getIdLocalidadPrueba() {
+		return idLocalidadPrueba;
+	}
+
+	@Transient
+	public void setIdLocalidadPrueba(Long idLocalidadPrueba) {
+		this.idLocalidadPrueba = idLocalidadPrueba;
+	}
+
 
 
 	public Set<Usuario> getUsuarios() {

@@ -125,7 +125,7 @@ public class CandidatoController {
 		// -- FIN AUTENTICACIÓN
 
 
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
+		candidato.setLocalidad(daoLocalidad.findOne(candidato.getIdLocalidadPrueba()));
 		
 		if(result.hasErrors()) {
 			return "NuevoCandidato";
@@ -167,13 +167,13 @@ public class CandidatoController {
 		}
 		// -- FIN AUTENTICACIÓN
 
-		candidato.setLocalidad(daoLocalidad.findOne(3L));
+		candidato.setLocalidad(daoLocalidad.findOne(candidato.getIdLocalidadPrueba()));
 		
 		if(result.hasErrors()) {
 			model.addAttribute("localidades", daoLocalidad.findLocalidad());
 			return "VerCandidato";
 		}
-		
+
 		daoCandidato.save(candidato);
 		return "redirect:/candidatos";
 	}
