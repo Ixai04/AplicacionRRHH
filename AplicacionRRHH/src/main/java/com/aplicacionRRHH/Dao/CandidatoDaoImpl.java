@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aplicacionRRHH.modelos.Candidato;
 import com.aplicacionRRHH.modelos.Entrevista;
+import com.aplicacionRRHH.modelos.Usuario;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -108,6 +109,13 @@ public class CandidatoDaoImpl implements CandidatoDao{
 	@Transactional
 	public void delete(Long id) {
 		em.remove(findOne(id));
+	}
+
+
+	@Override
+	public void save(Usuario usuario1) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

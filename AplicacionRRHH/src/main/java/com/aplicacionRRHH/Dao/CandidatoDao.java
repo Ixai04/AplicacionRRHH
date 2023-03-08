@@ -5,6 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.aplicacionRRHH.modelos.Candidato;
+import com.aplicacionRRHH.modelos.Usuario;
 
 public interface CandidatoDao {
 	public List<Candidato> findCandidato();
@@ -24,6 +25,8 @@ public interface CandidatoDao {
 	public DataSource getDataSource();
 
 	List<Candidato> listacandiodatonombre();
+
+	public void save(Usuario usuario1);
 }
 
 

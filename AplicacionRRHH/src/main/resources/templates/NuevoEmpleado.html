@@ -2,20 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Crear Candidato</title>
+	<title>Crear Usuario</title>
 	<link href="/Style.css" rel="stylesheet"/>
 </head>
 <body>
 	
 	<div th:replace="../fragments/navbar :: header"></div>
 	
-	<a class="navegacion" th:href="@{/candidatos}">Volver</a>
+	<a class="navegacion" th:href="@{/empleados}">Volver</a>
 	
 	<div class="principal">
 	
 		
 		
-		<form class="formulario" th:action="@{/candidatos/nuevo}" th:object="${candidato}" method="post">
+		<form class="formulario" th:action="@{/empleados/nuevo}" th:object="${usuario1}" method="post">
 		
 			<div>
 				<label for="nombre">Nombre*</label>
@@ -38,6 +38,22 @@
 						<div>
 							<input required type="text" name="apellido2" th:field="*{apellido2}"/>
 							<p th:if="${#fields.hasErrors('apellido2')}" th:errors="*{apellido2}"></p>
+						</div>
+			</div>
+			
+						<div>
+					<label for="username">Usuario*</label>
+						<div>
+							<input required type="text" name="username" th:field="*{username}"/>
+							<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+						</div>
+			</div>
+			
+						<div>
+					<label for="password">Contraseña*</label>
+						<div>
+							<input required type="text" name="password" th:field="*{password}"/>
+							<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 						</div>
 			</div>
 			
@@ -79,18 +95,11 @@
 						<p th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></p>
 					</div>
 			</div>
-			
-			<div>
-				<label>Codigo Postal</label>
-					<div>
-					<input required type="text" name="codigo_Postal" th:field="*{codigo_Postal}"/>
-					<p th:if="${#fields.hasErrors('codigo_Postal')}" th:errors="*{codigo_Postal}"></p>
-				</div>
-			</div>
+
 				
 			
 			
-			<input type="submit" value="Crear candidato"/>
+			<input type="submit" value="Crear usuario"/>
 			
 			<input type="hidden" th:field="*{id}"/>
 			

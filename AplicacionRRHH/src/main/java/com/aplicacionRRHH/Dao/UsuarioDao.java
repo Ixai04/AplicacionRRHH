@@ -25,4 +25,6 @@ public interface UsuarioDao {
 	public Usuario login (String username, String password);
 	public List<Usuario> getAllGestores();
 
+	List<Usuario> getAllEmpleados();
+
 }
