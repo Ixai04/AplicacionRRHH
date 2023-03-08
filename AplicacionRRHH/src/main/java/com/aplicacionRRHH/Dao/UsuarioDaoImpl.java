@@ -42,6 +42,16 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 		return listaUsuarios;
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getAllEmpleados() {
+		
+		List<Usuario> listaUsuarios = em.createQuery("from Usuario where rol = 1 ").getResultList();
+		
+		return listaUsuarios;
+	}
+
 
 	@Override
 	@Transactional

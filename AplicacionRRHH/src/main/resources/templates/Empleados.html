@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	 <meta charset="utf-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <title>Lista empleados</title>
+	<link href="/Style.css" rel="stylesheet"/>
+</head>
+<body>
+	<div th:replace="../fragments/navbar :: header"></div>
+
+	<div class="principal">
+		<div> 
+			
+			<h1>Empleados</h1>
+			
+			<a href="empleados/nuevo" class="crear">Nuevo</a>
+	
+			<table class="tabla">
+
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Apellido 1</th>
+						<th>Empresa</th>
+						<th>Localidad</th>
+						<th colspan="2">Acciones</th>
+			
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="empleado: ${listaempleados}"> 
+						<td><span th:text="${empleado.id}"></span></td>
+						<td><span th:text="${empleado.rol.nombre}"></span></td>				
+						<td><span th:text="${empleado.nombre}"></span></td>
+						<td><span th:text="${empleado.apellido1}"></span></td>
+						<td><span th:text="${empleado.localidad.nombre + ' (' +empleado.localidad.provincia.nombre + ')'} "></span></td>
+						<td><a th:href="@{/empleados/ver/} + ${empleado.id}">Ver</a></td>
+						<td><a th:href="@{/empleados/eliminar/} + ${empleado.id}">Eliminar</a></td>
+					</tr>
+
+				</tbody>
+
+
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

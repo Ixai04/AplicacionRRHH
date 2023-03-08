@@ -26,6 +26,9 @@
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}" class="nav-item">
 	        <a th:href="@{/convocatorias}" class="nav-link">Convocatorias</a>
 	      </li>
+	      	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'gestor')}" class="nav-item">
+	        <a th:href="@{/empleados}" class="nav-link">Empleados</a>
+	      </li>
 	    <!-- ADMINISTRADOR -->
 	      <li th:if="${(usuario != null) && (usuario.rol.nombre == 'admin')}" class="nav-item">
 	        <a th:href="@{/configParametros}" class="nav-link disabled" th:text="${usuario.rol.nombre}">Parametross</a>

@@ -1,6 +1,8 @@
 package com.aplicacionRRHH.Controllers;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.aplicacionRRHH.Dao.FichajeDao;
 import com.aplicacionRRHH.Dao.UsuarioDao;
+import com.aplicacionRRHH.modelos.Fichaje;
 import com.aplicacionRRHH.modelos.Usuario;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-public class FichajesController {
+public class FichajeController {
 	
 	@Autowired
-	private UsuarioDao daoUsuario;
+	private FichajeDao daoFichajes;
 
 	@GetMapping("/fichar")
 	public String inicio(Map<String, Object> model, HttpServletRequest request) {
@@ -33,12 +37,7 @@ public class FichajesController {
 		}
 		// -- FIN AUTENTICACIÓN
 		
-		List<String> listaFichajes = new ArrayList<String>();
-		listaFichajes.add("Fichajes 1 - Entrada");
-		listaFichajes.add("Fichajes 2 - Salida");
-		listaFichajes.add("Fichajes 3 - Entrada");
-		
-		model.put("listaFichajes", listaFichajes);
+		model.put("listaFichajes", daoFichajes.findFichajes());
 		return "Fichar";
 	}
 	
@@ -57,7 +56,16 @@ public class FichajesController {
 		}
 		// -- FIN AUTENTICACIÓN
 		
-		System.out.println("--------------");
+		System.out.println("--- FICHANDO ENTRADA ---");
+		
+		Fichaje fichaje = new Fichaje();
+		fichaje.setUsuario(usuario);
+		fichaje.setDia(LocalDate.now());
+		fichaje.setHora(LocalTime.now());
+		fichaje.setEsEntrada(true);
+		
+		daoFichajes.save(fichaje);
+		
 		return "redirect:/fichar";
 	}
 	
@@ -73,8 +81,17 @@ public class FichajesController {
 			model.put("usuario", usuario);
 		}
 		// -- FIN AUTENTICACIÓN
+
+		System.out.println("--- FICHANDO SALIDA ---");
 		
-		System.out.println("--------------");
+		Fichaje fichaje = new Fichaje();
+		fichaje.setUsuario(usuario);
+		fichaje.setDia(LocalDate.now());
+		fichaje.setHora(LocalTime.now());
+		fichaje.setEsEntrada(false);
+		
+		daoFichajes.save(fichaje);
+		
 		return "redirect:/fichar";
 	}
 	
